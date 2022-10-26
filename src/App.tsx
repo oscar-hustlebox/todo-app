@@ -1,10 +1,10 @@
 import './App.css';
-import { Store } from './components/store/Store';
+import { StoreFront } from './components/StoreFront';
 
 function App() {
     return (
         <div className="App">
-            <Store />
+            <StoreFront />
         </div>
     );
 }
