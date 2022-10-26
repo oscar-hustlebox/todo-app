@@ -43,7 +43,16 @@
                 "endOfLine": "auto"
             }
         ],
-        "import/extensions": ["error", "ignorePackages"],
-        "import/no-unresolved": "off"
+        "import/no-unresolved": "off",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ]
     }
 }
