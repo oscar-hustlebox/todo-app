@@ -1,10 +1,12 @@
-import { Tbody, Td, Tr } from '@chakra-ui/react';
+import { Box, Button, Tbody, Td, Tr } from '@chakra-ui/react';
 import React from 'react';
-import { AssetState } from '../../../redux/slices/assets/slice';
+import { useDispatch } from 'react-redux';
+import { AssetState, removeAsset } from '../../../redux/slices/assets/slice';
 
 type AssetListItemProps = { asset: AssetState };
 
 export const AssetListItem = ({ asset }: AssetListItemProps) => {
+    const dispatch = useDispatch();
     return (
         <Tbody>
             <Tr>
@@ -12,6 +14,11 @@ export const AssetListItem = ({ asset }: AssetListItemProps) => {
                 <Td>{asset.description}</Td>
                 <Td isNumeric>{asset.quantity}</Td>
                 <Td>{asset.status}</Td>
+                <Td>
+                    <Box>
+                        <Button onClick={() => dispatch(removeAsset(asset.id))}>Remove</Button>
+                    </Box>
+                </Td>
             </Tr>
         </Tbody>
     );

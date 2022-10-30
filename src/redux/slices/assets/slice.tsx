@@ -57,10 +57,13 @@ export const assetsSlice = createSlice({
         addAsset: (state, action) => {
             return [...state, action.payload];
         },
+        removeAsset: (state, action) => {
+            return state.filter((asset) => asset.id !== action.payload);
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { getAssets, addAsset } = assetsSlice.actions;
+export const { getAssets, addAsset, removeAsset } = assetsSlice.actions;
 
 export default assetsSlice.reducer;
