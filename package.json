@@ -63,6 +63,7 @@
         "styled-components": "5.3.6",
         "tailwindcss": "^3.0.2",
         "terser-webpack-plugin": "^5.2.5",
+        "uuid": "9.0.0",
         "web-vitals": "2.1.4",
         "webpack": "^5.64.4",
         "webpack-dev-server": "^4.6.0",
@@ -156,6 +157,7 @@
     "devDependencies": {
         "@types/redux-logger": "3.0.9",
         "@types/styled-components": "5.1.26",
+        "@types/uuid": "8.3.4",
         "@typescript-eslint/eslint-plugin": "5.41.0",
         "@typescript-eslint/parser": "5.41.0",
         "eslint": "8.26.0",

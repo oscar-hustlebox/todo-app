@@ -1,8 +1,12 @@
 import React, { ReactElement } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button, Grid, GridItem, Input } from '@chakra-ui/react';
-import { QuantityInput } from './QuantityInput';
+import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+
 import { StatusSelect } from './StatusSelect';
+import { QuantityInput } from './QuantityInput';
+import { addAsset } from '../../redux/slices/assets/slice';
 
 export type FormValues = {
     name: string;
@@ -13,8 +17,13 @@ export type FormValues = {
 
 export const AssetForm = (): ReactElement => {
     const { register, handleSubmit, control } = useForm<FormValues>();
+    const dispatch = useDispatch();
+    const onSubmit: SubmitHandler<FormValues> = (formValues) => {
+        const { name } = formValues;
 
-    const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+        /* Dispatching an action to the redux store. */
+        dispatch(addAsset({ ...formValues, id: uuidv4(), key: name.toLowerCase() }));
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
