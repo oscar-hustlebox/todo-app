@@ -5,5 +5,6 @@ export const StyledWrapper = styled.div`
     flex-direction: column;
     height: 100vh;
     padding: 1rem;
+    border-top: 1px solid #BEBFC0;
     background-color: #F0F4F6;
 `;

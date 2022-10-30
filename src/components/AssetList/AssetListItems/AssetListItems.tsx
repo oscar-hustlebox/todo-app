@@ -21,7 +21,7 @@ export const AssetListItems = () => {
                                 Description
                             </Text>
                         </Th>
-                        <Th isNumeric>
+                        <Th>
                             <Text fontWeight="extrabold" casing="capitalize">
                                 Quantity
                             </Text>
@@ -29,6 +29,11 @@ export const AssetListItems = () => {
                         <Th>
                             <Text fontWeight="extrabold" casing="capitalize">
                                 Status
+                            </Text>
+                        </Th>
+                        <Th>
+                            <Text fontWeight="extrabold" casing="capitalize">
+                                Actions
                             </Text>
                         </Th>
                     </Tr>

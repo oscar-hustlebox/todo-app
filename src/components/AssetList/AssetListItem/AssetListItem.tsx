@@ -12,7 +12,7 @@ export const AssetListItem = ({ asset }: AssetListItemProps) => {
             <Tr>
                 <Td>{asset.name}</Td>
                 <Td>{asset.description}</Td>
-                <Td isNumeric>{asset.quantity}</Td>
+                <Td>{asset.quantity}</Td>
                 <Td>{asset.status}</Td>
                 <Td>
                     <Box>

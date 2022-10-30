@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Text } from '@chakra-ui/react';
 import { AssetForm } from '../AssetForm/AssetForm';
 
 export const AddAsset = (): ReactElement => {
@@ -11,7 +11,7 @@ export const AddAsset = (): ReactElement => {
                         <AccordionButton>
                             <AccordionIcon />
                             <Box flex="1" textAlign="left">
-                                Add Asset
+                                <Text>Add Asset</Text>
                             </Box>
                         </AccordionButton>
                     </h2>
