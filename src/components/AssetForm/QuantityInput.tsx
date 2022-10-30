@@ -6,15 +6,22 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
 } from '@chakra-ui/react';
+import { Controller } from 'react-hook-form';
 
-export const QuantityInput = ({ name }: { name: string }): ReactElement => {
+export const QuantityInput = ({ control, name }: { control: any; name: string }): ReactElement => {
     return (
-        <NumberInput name={name} defaultValue={1} borderColor="#D2D4D5">
-            <NumberInputField />
-            <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-            </NumberInputStepper>
-        </NumberInput>
+        <Controller
+            control={control}
+            name={name}
+            render={({ field }) => (
+                <NumberInput {...field} min={0} defaultValue={1}>
+                    <NumberInputField ref={field.ref} name={field.name} />
+                    <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                    </NumberInputStepper>
+                </NumberInput>
+            )}
+        />
     );
 };
