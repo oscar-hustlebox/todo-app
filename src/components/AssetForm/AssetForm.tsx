@@ -68,7 +68,7 @@ export const AssetForm = (): ReactElement => {
                     <Input
                         {...register('name')}
                         type="text"
-                        placeholder="name"
+                        placeholder="e.g. Todoist, Google Docs, etc."
                         borderColor="gray.200"
                         backgroundColor="#FFFFFF"
                         errorBorderColor="red.300"
@@ -88,7 +88,7 @@ export const AssetForm = (): ReactElement => {
                     <Input
                         {...register('description')}
                         type="text"
-                        placeholder="description"
+                        placeholder="Create, collaborate, and get organized."
                         borderColor="gray.200"
                         backgroundColor="#FFFFFF"
                         errorBorderColor="red.300"
