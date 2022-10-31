@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { Alert, AlertIcon, Button, Box, Heading, Input, SimpleGrid } from '@chakra-ui/react';
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
+import { SimpleGrid } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,6 +9,8 @@ import * as yup from 'yup';
 import { StatusSelect } from './StatusSelect';
 import { QuantityInput } from './QuantityInput';
 import { addAsset } from '../../redux/slices/assets/slice';
+import { InputField } from './InputField';
+import { SubmitButton } from './SubmitButton';
 
 export type FormValues = {
     name: string;
@@ -29,12 +31,7 @@ const schema = yup
 
 export const AssetForm = (): ReactElement => {
     /* Using the `useForm` hook to create a form. */
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        control,
-    } = useForm<FormValues>({
+    const methods = useForm<FormValues>({
         resolver: yupResolver(schema),
         defaultValues: {
             name: '',
@@ -43,7 +40,7 @@ export const AssetForm = (): ReactElement => {
             status: 'pending',
         },
     });
-
+    const { reset, handleSubmit, control } = methods;
     const dispatch = useDispatch();
 
     /**
@@ -56,80 +53,24 @@ export const AssetForm = (): ReactElement => {
 
         /* Dispatching an action to the redux store. */
         dispatch(addAsset({ ...formValues, id: uuidv4(), key: name.toLowerCase() }));
+        reset();
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <SimpleGrid columns={{ sm: 1, base: 5, md: 5 }} spacing={2}>
-                <Box>
-                    <Heading size="xs" fontWeight="light">
-                        Name
-                    </Heading>
-                    <Input
-                        {...register('name')}
-                        type="text"
-                        placeholder="e.g. Todoist, Google Docs, etc."
-                        borderColor="gray.200"
-                        backgroundColor="#FFFFFF"
-                        errorBorderColor="red.300"
-                        isInvalid={!!errors.name}
+        <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <SimpleGrid columns={{ xs: 1, sm: 1, base: 5, md: 5 }} spacing={2}>
+                    <InputField name="name" labelText="Name" placeholderText="e.g. Todoist, Google Docs, etc." />
+                    <InputField
+                        name="description"
+                        labelText="Description"
+                        placeholderText="Create, collaborate, and get organized."
                     />
-                    {errors?.name?.message && (
-                        <Alert status="error">
-                            <AlertIcon />
-                            {errors.name.message}
-                        </Alert>
-                    )}
-                </Box>
-                <Box>
-                    <Heading size="xs" fontWeight="light">
-                        Description
-                    </Heading>
-                    <Input
-                        {...register('description')}
-                        type="text"
-                        placeholder="Create, collaborate, and get organized."
-                        borderColor="gray.200"
-                        backgroundColor="#FFFFFF"
-                        errorBorderColor="red.300"
-                        isInvalid={!!errors.name}
-                    />
-                    {errors?.description?.message && (
-                        <Alert status="error">
-                            <AlertIcon />
-                            {errors.description.message}
-                        </Alert>
-                    )}
-                </Box>
-                <Box>
-                    <Heading size="xs" fontWeight="light">
-                        Quantity
-                    </Heading>
-                    <QuantityInput control={control} name="quantity" />
-                </Box>
-                <Box>
-                    <Heading size="xs" fontWeight="light">
-                        Status
-                    </Heading>
-                    <StatusSelect control={control} name="status" />
-                </Box>
-                <Box>
-                    <Heading size="xs" fontWeight="light">
-                        &nbsp;
-                    </Heading>
-                    <Button
-                        type="submit"
-                        backgroundColor="gray.500"
-                        color="white"
-                        borderRadius={2}
-                        width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
-                    >
-                        <Heading size="xs" textTransform="uppercase">
-                            Add
-                        </Heading>
-                    </Button>
-                </Box>
-            </SimpleGrid>
-        </form>
+                    <QuantityInput control={control} name="quantity" labelText="Quantity" />
+                    <StatusSelect control={control} name="status" labelText="Status" />
+                    <SubmitButton />
+                </SimpleGrid>
+            </form>
+        </FormProvider>
     );
 };

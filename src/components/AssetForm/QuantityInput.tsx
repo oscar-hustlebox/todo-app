@@ -6,16 +6,16 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
     Box,
-    Alert,
-    AlertIcon,
     Flex,
+    Heading,
 } from '@chakra-ui/react';
 import { UseControllerProps, useController } from 'react-hook-form';
 import { FormValues } from './AssetForm';
 import { ReactComponent as ArrowDown } from '../../assets/arrow-down.svg';
 import { ReactComponent as ArrowUp } from '../../assets/arrow-up.svg';
+import { ErrorMessage } from './ErrorMessage';
 
-export const QuantityInput = (props: UseControllerProps<FormValues>): ReactElement => {
+export const QuantityInput = (props: UseControllerProps<FormValues> & { labelText: string }): ReactElement => {
     const {
         field,
         formState: { errors },
@@ -23,6 +23,9 @@ export const QuantityInput = (props: UseControllerProps<FormValues>): ReactEleme
 
     return (
         <Box>
+            <Heading size="xs" fontWeight="light">
+                {props.labelText}
+            </Heading>
             <NumberInput
                 {...field}
                 min={0}
@@ -50,11 +53,8 @@ export const QuantityInput = (props: UseControllerProps<FormValues>): ReactEleme
                     />
                 </NumberInputStepper>
             </NumberInput>
-            {errors?.quantity?.message && (
-                <Alert status="error">
-                    <AlertIcon />
-                    {errors.quantity.message}
-                </Alert>
+            {errors?.[props.name]?.message && (
+                <ErrorMessage message={errors?.[props.name]?.message?.toString() || ''} />
             )}
         </Box>
     );
