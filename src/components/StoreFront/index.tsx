@@ -1,8 +1,7 @@
-import { Box, Flex, Heading, Image } from '@chakra-ui/react';
 import React from 'react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import { AddAsset } from '../AddAsset/AddAsset';
 import { AssetList } from '../AssetList';
-import { StyledWrapper } from './styles';
 import { ReactComponent as AssetLogo } from '../../assets/logo.svg';
 
 export const StoreFront = () => {
@@ -26,7 +25,7 @@ export const StoreFront = () => {
                 height="100vh"
             >
                 <AddAsset />
-                <Box marginTop={4}>
+                <Box marginTop={4} paddingX={4}>
                     <AssetList />
                 </Box>
             </Flex>

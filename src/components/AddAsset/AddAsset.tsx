@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Text } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Text } from '@chakra-ui/react';
 import { AssetForm } from '../AssetForm/AssetForm';
 import { ReactComponent as ArrowDown } from '../../assets/arrow-down.svg';
 import { ReactComponent as ArrowUp } from '../../assets/arrow-up.svg';

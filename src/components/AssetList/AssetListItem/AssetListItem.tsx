@@ -7,6 +7,18 @@ type AssetListItemProps = { asset: AssetState };
 
 export const AssetListItem = ({ asset }: AssetListItemProps) => {
     const dispatch = useDispatch();
+
+    const getTitleCase = (str: 'pending' | 'offline' | 'online') => {
+        switch (str) {
+            case 'pending':
+                return 'Pending';
+            case 'offline':
+                return 'Offline';
+            case 'online':
+                return 'Online';
+        }
+    };
+
     return (
         <Tbody>
             <Tr>
@@ -17,7 +29,7 @@ export const AssetListItem = ({ asset }: AssetListItemProps) => {
                 </Td>
                 <Td>{asset.description}</Td>
                 <Td>{asset.quantity}</Td>
-                <Td>{asset.status}</Td>
+                <Td>{getTitleCase(asset.status)}</Td>
                 <Td>
                     <Box>
                         <Button onClick={() => dispatch(removeAsset(asset.id))}>Remove</Button>

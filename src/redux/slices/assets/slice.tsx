@@ -7,7 +7,7 @@ export type AssetState = {
     name: string;
     description: string;
     quantity: number;
-    status: 'Online' | 'Offline' | 'Pending';
+    status: 'online' | 'offline' | 'pending';
 };
 
 export type AssetsState = AssetState[];
@@ -19,7 +19,7 @@ export const initialState: AssetsState = [
         name: 'Confluence',
         description: 'Manage software development projects',
         quantity: 1,
-        status: 'Pending',
+        status: 'pending',
     },
     {
         id: uuidv4(),
@@ -27,7 +27,7 @@ export const initialState: AssetsState = [
         name: 'Github',
         description: 'Code hosting platform',
         quantity: 3,
-        status: 'Online',
+        status: 'online',
     },
     {
         id: uuidv4(),
@@ -35,7 +35,7 @@ export const initialState: AssetsState = [
         name: 'Jira',
         description: 'Create issues',
         quantity: 1,
-        status: 'Online',
+        status: 'online',
     },
     {
         id: uuidv4(),
@@ -43,7 +43,7 @@ export const initialState: AssetsState = [
         name: 'New Asset',
         description: 'New Asset description',
         quantity: 2,
-        status: 'Pending',
+        status: 'pending',
     },
 ];
 

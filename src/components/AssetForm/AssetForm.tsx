@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Alert, AlertIcon, Button, Grid, GridItem, Heading, Input, Text } from '@chakra-ui/react';
+import { Alert, AlertIcon, Button, Grid, GridItem, Heading, Input } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,7 +14,7 @@ export type FormValues = {
     name: string;
     description: string;
     quantity: number;
-    status: 'Online' | 'Offline' | 'Pending';
+    status: 'online' | 'offline' | 'pending';
 };
 
 const schema = yup
@@ -34,6 +34,12 @@ export const AssetForm = (): ReactElement => {
         control,
     } = useForm<FormValues>({
         resolver: yupResolver(schema),
+        defaultValues: {
+            name: '',
+            description: '',
+            quantity: 1,
+            status: 'pending',
+        },
     });
     const dispatch = useDispatch();
     const onSubmit: SubmitHandler<FormValues> = (formValues) => {
