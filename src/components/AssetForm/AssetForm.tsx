@@ -59,7 +59,7 @@ export const AssetForm = (): ReactElement => {
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <SimpleGrid columns={{ sm: 1, base: 5, md: 5 }} spacing={2}>
+                <SimpleGrid columns={{ base: 1, sm: 5 }} spacing={2}>
                     <InputField name="name" labelText="Name" placeholderText="e.g. Todoist, Google Docs, etc." />
                     <InputField
                         name="description"
