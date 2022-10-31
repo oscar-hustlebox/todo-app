@@ -11,7 +11,7 @@ export const AddAsset = (): ReactElement => {
                 {({ isExpanded }) => (
                     <>
                         <h2>
-                            <AccordionButton paddingY={6} _hover={{ backgroundColor: 'transparent' }} gap={4}>
+                            <AccordionButton py={6} _hover={{ backgroundColor: 'transparent' }} gap={4}>
                                 {isExpanded ? <ArrowUp /> : <ArrowDown />}
                                 <Box flex="1" textAlign="left">
                                     <Text>Add Asset</Text>
