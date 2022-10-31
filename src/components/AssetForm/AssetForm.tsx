@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Alert, AlertIcon, Button, Grid, GridItem, Heading, Input } from '@chakra-ui/react';
+import { Alert, AlertIcon, Button, Box, Heading, Input, SimpleGrid } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -17,6 +17,7 @@ export type FormValues = {
     status: 'online' | 'offline' | 'pending';
 };
 
+/* Creating a schema that is used to validate the form values. */
 const schema = yup
     .object({
         name: yup.string().required(),
@@ -27,6 +28,7 @@ const schema = yup
     .required();
 
 export const AssetForm = (): ReactElement => {
+    /* Using the `useForm` hook to create a form. */
     const {
         register,
         handleSubmit,
@@ -41,7 +43,14 @@ export const AssetForm = (): ReactElement => {
             status: 'pending',
         },
     });
+
     const dispatch = useDispatch();
+
+    /**
+     * The `onSubmit` function is a callback function that is called when the form is submitted. It takes
+     * the form values as an argument and dispatches an action to the redux store
+     * @param formValues - The values of the form.
+     */
     const onSubmit: SubmitHandler<FormValues> = (formValues) => {
         const { name } = formValues;
 
@@ -51,8 +60,8 @@ export const AssetForm = (): ReactElement => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid templateColumns="repeat(5, 1fr)" gap={6}>
-                <GridItem w="100%">
+            <SimpleGrid columns={{ sm: 1, base: 5, md: 5 }} spacing={2}>
+                <Box>
                     <Heading size="xs" fontWeight="light">
                         Name
                     </Heading>
@@ -71,8 +80,8 @@ export const AssetForm = (): ReactElement => {
                             {errors.name.message}
                         </Alert>
                     )}
-                </GridItem>
-                <GridItem w="100%">
+                </Box>
+                <Box>
                     <Heading size="xs" fontWeight="light">
                         Description
                     </Heading>
@@ -91,30 +100,36 @@ export const AssetForm = (): ReactElement => {
                             {errors.description.message}
                         </Alert>
                     )}
-                </GridItem>
-                <GridItem w="100%">
+                </Box>
+                <Box>
                     <Heading size="xs" fontWeight="light">
                         Quantity
                     </Heading>
                     <QuantityInput control={control} name="quantity" />
-                </GridItem>
-                <GridItem w="100%">
+                </Box>
+                <Box>
                     <Heading size="xs" fontWeight="light">
                         Status
                     </Heading>
                     <StatusSelect control={control} name="status" />
-                </GridItem>
-                <GridItem w="100%">
+                </Box>
+                <Box>
                     <Heading size="xs" fontWeight="light">
                         &nbsp;
                     </Heading>
-                    <Button type="submit" backgroundColor="gray.500" color="white" borderRadius={2}>
+                    <Button
+                        type="submit"
+                        backgroundColor="gray.500"
+                        color="white"
+                        borderRadius={2}
+                        width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
+                    >
                         <Heading size="xs" textTransform="uppercase">
                             Add
                         </Heading>
                     </Button>
-                </GridItem>
-            </Grid>
+                </Box>
+            </SimpleGrid>
         </form>
     );
 };

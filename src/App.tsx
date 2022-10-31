@@ -1,18 +1,15 @@
 import * as React from 'react';
 import { extendTheme, ChakraProvider } from '@chakra-ui/react';
-
-// 2. Extend the theme to include custom colors, fonts, etc
-const colors = {
-    brand: {
-        900: '#1a365d',
-        800: '#153e75',
-        700: '#2a69ac',
-    },
-};
-
 import { StoreFront } from './components/StoreFront';
 
-const theme = extendTheme({ colors });
+// 2. Extend the theme to include custom colors, fonts, etc
+const customeTheme = extendTheme({
+    colors: {},
+    fonts: {},
+    fontSizes: {},
+});
+
+const theme = extendTheme({ customeTheme });
 
 function App() {
     return (

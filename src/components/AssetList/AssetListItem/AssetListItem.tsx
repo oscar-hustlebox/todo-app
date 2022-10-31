@@ -5,9 +5,23 @@ import { AssetState, removeAsset } from '../../../redux/slices/assets/slice';
 
 type AssetListItemProps = { asset: AssetState };
 
+/**
+ * It takes an asset object and returns a table row with the asset's name, description, quantity,
+ * status, and a button to remove the asset
+ * @param AssetListItemProps - This is the type of the props that the component
+ * will receive.
+ * @returns A table row with the asset's name, description, quantity, status, and a button to remove
+ * the asset.
+ */
 export const AssetListItem = ({ asset }: AssetListItemProps) => {
     const dispatch = useDispatch();
 
+    /**
+     * It takes a string that can only be one of three values and returns a string that is the title case
+     * version of that value
+     * @param {'pending' | 'offline' | 'online'} str - 'pending' | 'offline' | 'online'
+     * @returns A string
+     */
     const getTitleCase = (str: 'pending' | 'offline' | 'online') => {
         switch (str) {
             case 'pending':
@@ -23,7 +37,7 @@ export const AssetListItem = ({ asset }: AssetListItemProps) => {
         <Tbody>
             <Tr>
                 <Td>
-                    <Link href="#nowhere" isExternal color="blue.500">
+                    <Link href="#nowhere" color="blue.500">
                         {asset.name}
                     </Link>
                 </Td>
