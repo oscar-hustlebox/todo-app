@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Alert, AlertIcon, Button, Grid, GridItem, Input } from '@chakra-ui/react';
+import { Alert, AlertIcon, Button, Grid, GridItem, Heading, Input, Text } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -47,11 +47,15 @@ export const AssetForm = (): ReactElement => {
         <form onSubmit={handleSubmit(onSubmit)}>
             <Grid templateColumns="repeat(5, 1fr)" gap={6}>
                 <GridItem w="100%">
+                    <Heading size="xs" fontWeight="light">
+                        Name
+                    </Heading>
                     <Input
                         {...register('name')}
                         type="text"
                         placeholder="name"
-                        borderColor="#D2D4D5"
+                        borderColor="gray.200"
+                        backgroundColor="#FFFFFF"
                         errorBorderColor="red.300"
                         isInvalid={!!errors.name}
                     />
@@ -63,11 +67,15 @@ export const AssetForm = (): ReactElement => {
                     )}
                 </GridItem>
                 <GridItem w="100%">
+                    <Heading size="xs" fontWeight="light">
+                        Description
+                    </Heading>
                     <Input
                         {...register('description')}
                         type="text"
                         placeholder="description"
-                        borderColor="#D2D4D5"
+                        borderColor="gray.200"
+                        backgroundColor="#FFFFFF"
                         errorBorderColor="red.300"
                         isInvalid={!!errors.name}
                     />
@@ -79,14 +87,25 @@ export const AssetForm = (): ReactElement => {
                     )}
                 </GridItem>
                 <GridItem w="100%">
+                    <Heading size="xs" fontWeight="light">
+                        Quantity
+                    </Heading>
                     <QuantityInput control={control} name="quantity" />
                 </GridItem>
                 <GridItem w="100%">
+                    <Heading size="xs" fontWeight="light">
+                        Status
+                    </Heading>
                     <StatusSelect control={control} name="status" />
                 </GridItem>
                 <GridItem w="100%">
-                    <Button type="submit" backgroundColor="#5D7599" color="white">
-                        Add
+                    <Heading size="xs" fontWeight="light">
+                        &nbsp;
+                    </Heading>
+                    <Button type="submit" backgroundColor="gray.500" color="white" borderRadius={2}>
+                        <Heading size="xs" textTransform="uppercase">
+                            Add
+                        </Heading>
                     </Button>
                 </GridItem>
             </Grid>

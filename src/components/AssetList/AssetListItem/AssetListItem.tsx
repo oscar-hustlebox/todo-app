@@ -1,4 +1,4 @@
-import { Box, Button, Tbody, Td, Tr } from '@chakra-ui/react';
+import { Box, Button, Link, Tbody, Td, Tr } from '@chakra-ui/react';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { AssetState, removeAsset } from '../../../redux/slices/assets/slice';
@@ -10,7 +10,11 @@ export const AssetListItem = ({ asset }: AssetListItemProps) => {
     return (
         <Tbody>
             <Tr>
-                <Td>{asset.name}</Td>
+                <Td>
+                    <Link href="#nowhere" isExternal color="blue.500">
+                        {asset.name}
+                    </Link>
+                </Td>
                 <Td>{asset.description}</Td>
                 <Td>{asset.quantity}</Td>
                 <Td>{asset.status}</Td>

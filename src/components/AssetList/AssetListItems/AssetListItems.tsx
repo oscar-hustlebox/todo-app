@@ -7,8 +7,8 @@ import { Table, TableContainer, Text, Th, Thead, Tr } from '@chakra-ui/react';
 export const AssetListItems = () => {
     const assets = useSelector((state: RootState) => state.assets);
     return (
-        <TableContainer border="1px" borderRadius={4} borderColor="#BEBFC0">
-            <Table variant="striped">
+        <TableContainer border="1px" borderRadius={4} borderColor="gray.200" backgroundColor="#FFFFFF">
+            <Table variant="simple" backgroundColor="#FFFFFF">
                 <Thead>
                     <Tr>
                         <Th>

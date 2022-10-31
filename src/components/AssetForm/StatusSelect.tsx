@@ -14,7 +14,8 @@ export const StatusSelect = (props: UseControllerProps<FormValues>): ReactElemen
             <Select
                 {...field}
                 placeholder="Select status"
-                borderColor="#D2D4D5"
+                borderColor="gray.200"
+                backgroundColor="#FFFFFF"
                 errorBorderColor="red.300"
                 isInvalid={!!errors.name}
             >

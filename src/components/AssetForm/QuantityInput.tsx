@@ -20,7 +20,15 @@ export const QuantityInput = (props: UseControllerProps<FormValues>): ReactEleme
 
     return (
         <Box>
-            <NumberInput {...field} min={0} errorBorderColor="red.300" isInvalid={!!errors.name}>
+            <NumberInput
+                {...field}
+                min={0}
+                borderColor="gray.200"
+                borderRadius={8}
+                backgroundColor="#FFFFFF"
+                errorBorderColor="red.300"
+                isInvalid={!!errors.name}
+            >
                 <NumberInputField ref={field.ref} name={field.name} />
                 <NumberInputStepper>
                     <NumberIncrementStepper />
