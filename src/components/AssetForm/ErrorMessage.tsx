@@ -1,7 +1,9 @@
 import React from 'react';
 import { Text } from '@chakra-ui/react';
 
-export const ErrorMessage = ({ message }: { message: string }) => {
+type ErrorMessageProps = { message: string };
+
+export const ErrorMessage = ({ message }: ErrorMessageProps) => {
     console.log('message', message);
     return (
         <Text mt={1} size="sm" color="red.400">

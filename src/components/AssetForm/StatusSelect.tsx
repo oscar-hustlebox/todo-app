@@ -5,9 +5,10 @@ import { FormValues } from './AssetForm';
 import { ReactComponent as ArrowDown } from '../../assets/arrow-down.svg';
 import { ErrorMessage } from './ErrorMessage';
 
+type StatusSelectProps = UseControllerProps<FormValues> & { labelText: string };
 /* A React component that is using the `useController` hook from `react-hook-form` to get the `field`
 and `formState` props. */
-export const StatusSelect = (props: UseControllerProps<FormValues> & { labelText: string }): ReactElement => {
+export const StatusSelect = (props: StatusSelectProps): ReactElement => {
     const {
         field,
         formState: { errors },

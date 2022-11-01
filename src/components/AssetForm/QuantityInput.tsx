@@ -15,7 +15,9 @@ import { ReactComponent as ArrowDown } from '../../assets/arrow-down.svg';
 import { ReactComponent as ArrowUp } from '../../assets/arrow-up.svg';
 import { ErrorMessage } from './ErrorMessage';
 
-export const QuantityInput = (props: UseControllerProps<FormValues> & { labelText: string }): ReactElement => {
+type QuantityInputProps = UseControllerProps<FormValues> & { labelText: string };
+
+export const QuantityInput = (props: QuantityInputProps): ReactElement => {
     const {
         field,
         formState: { errors },

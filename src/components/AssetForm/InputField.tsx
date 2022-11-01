@@ -3,15 +3,13 @@ import { Box, Heading, Input } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import { ErrorMessage } from './ErrorMessage';
 
-export const InputField = ({
-    name,
-    labelText,
-    placeholderText,
-}: {
+type InputFieldProps = {
     name: string;
     labelText: string;
     placeholderText: string;
-}): ReactElement => {
+};
+
+export const InputField = ({ name, labelText, placeholderText }: InputFieldProps): ReactElement => {
     const {
         register,
         formState: { errors },
