@@ -3,8 +3,8 @@ import { Box, Button, Heading } from '@chakra-ui/react';
 
 export const SubmitButton = (): ReactElement => {
     return (
-        <Box>
-            <Heading size="xs" fontWeight="light">
+        <Box mb={3}>
+            <Heading size="xs" fontWeight="light" mb={1}>
                 &nbsp;
             </Heading>
             <Button

@@ -22,8 +22,8 @@ export const QuantityInput = (props: UseControllerProps<FormValues> & { labelTex
     } = useController(props);
 
     return (
-        <Box>
-            <Heading size="xs" fontWeight="light">
+        <Box mb={3}>
+            <Heading size="xs" fontWeight="light" mb={1}>
                 {props.labelText}
             </Heading>
             <NumberInput

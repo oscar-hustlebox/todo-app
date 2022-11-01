@@ -17,8 +17,8 @@ export const InputField = ({
         formState: { errors },
     } = useFormContext();
     return (
-        <Box>
-            <Heading size="xs" fontWeight="light">
+        <Box mb={3}>
+            <Heading size="xs" fontWeight="light" mb={1}>
                 {labelText}
             </Heading>
             <Input
