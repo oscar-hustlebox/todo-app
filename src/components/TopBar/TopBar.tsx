@@ -10,7 +10,7 @@ export const TopBar = () => {
             </Box>
 
             <Heading as="h1" size="md" fontWeight="medium">
-                Assets
+                Todos
             </Heading>
         </Flex>
     );

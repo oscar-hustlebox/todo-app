@@ -13,7 +13,7 @@ type TodoListItemProps = { todo: TodoState };
  * @returns A table row with the asset's name, description, quantity, status, and a button to remove
  * the asset.
  */
-export const AssetListItem = ({ todo }: TodoListItemProps) => {
+export const TodoListItem = ({ todo }: TodoListItemProps) => {
     const dispatch = useDispatch();
 
     return (

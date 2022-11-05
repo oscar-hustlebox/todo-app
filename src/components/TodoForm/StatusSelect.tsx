@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { UseControllerProps, useController } from 'react-hook-form';
 import { Box, Heading, Select } from '@chakra-ui/react';
-import { FormValues } from './AssetForm';
+import { FormValues } from './TodoForm';
 import { ReactComponent as ArrowDown } from '../../assets/arrow-down.svg';
 import { ErrorMessage } from './ErrorMessage';
 

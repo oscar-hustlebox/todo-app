@@ -1,10 +1,10 @@
 import React from 'react';
 import { RootState } from '../../../redux/store';
-import { AssetListItem } from '../AssetListItem/AssetListItem';
+import { TodoListItem } from '../TodoListItem/TodoListItem';
 import { useSelector } from 'react-redux';
 import { Table, TableContainer, Tbody, Text, Th, Thead, Tr } from '@chakra-ui/react';
 
-export const AssetListItems = () => {
+export const TodoListItems = () => {
     const todos = useSelector((state: RootState) => state.todos);
     return (
         <TableContainer border="1px" borderRadius={4} borderColor="gray.200" backgroundColor="#FFF">
@@ -30,7 +30,7 @@ export const AssetListItems = () => {
                 </Thead>
                 <Tbody background="#FFF">
                     {todos.map((todo) => (
-                        <AssetListItem key={todo.id} todo={todo} />
+                        <TodoListItem key={todo.id} todo={todo} />
                     ))}
                 </Tbody>
             </Table>

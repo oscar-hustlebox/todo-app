@@ -23,13 +23,11 @@ export type FormValues = {
 const schema = yup
     .object({
         name: yup.string().required(),
-        description: yup.string().required(),
-        quantity: yup.number().positive().integer().required(),
-        status: yup.string().oneOf(['pending', 'online', 'offline']).required(),
+        isCompleted: yup.boolean().notRequired(),
     })
     .required();
 
-export const AssetForm = (): ReactElement => {
+export const TodoForm = (): ReactElement => {
     /* Using the `useForm` hook to create a form. */
     const methods = useForm<FormValues>({
         resolver: yupResolver(schema),
