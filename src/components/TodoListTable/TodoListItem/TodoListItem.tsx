@@ -24,6 +24,7 @@ export const TodoListItem = ({ todo }: TodoListItemProps) => {
                             size="lg"
                             width={'full'}
                             colorScheme="green"
+                            padding={2}
                         >
                             <Text
                                 {...(todo.isComplete
