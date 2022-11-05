@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Flex, Heading, Td, Text, Tr, Checkbox, IconButton } from '@chakra-ui/react';
+import { Flex, Td, Text, Tr, Checkbox, IconButton } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { TodoState, removeTodo, toggleTodoComplete } from '../../../redux/slices/todos/slice';
@@ -23,6 +23,7 @@ export const TodoListItem = ({ todo }: TodoListItemProps) => {
                             onChange={() => dispatch(toggleTodoComplete(todo.id))}
                             size="lg"
                             width={'full'}
+                            colorScheme="green"
                         >
                             <Text
                                 {...(todo.isComplete
