@@ -8,7 +8,7 @@ import * as yup from 'yup';
 
 import { StatusSelect } from './StatusSelect';
 import { QuantityInput } from './QuantityInput';
-import { addAsset } from '../../redux/slices/assets/slice';
+import { addTodo } from '../../redux/slices/todos/slice';
 import { InputField } from './InputField';
 import { SubmitButton } from './SubmitButton';
 
@@ -49,10 +49,8 @@ export const AssetForm = (): ReactElement => {
      * @param formValues - The values of the form.
      */
     const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-        const { name } = formValues;
-
         /* Dispatching an action to the redux store. */
-        dispatch(addAsset({ ...formValues, id: uuidv4(), key: name.toLowerCase() }));
+        dispatch(addTodo({ ...formValues, id: uuidv4() }));
         reset();
     };
 

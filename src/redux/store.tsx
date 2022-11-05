@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import assetsReducer from './slices/assets/slice';
+import todosReducer from './slices/todos/slice';
 
 export const store = configureStore({
     reducer: {
-        assets: assetsReducer,
+        todos: todosReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
