@@ -36,7 +36,7 @@ export const TodoListItem = ({ todo }: TodoListItemProps) => {
                 )}
             </Td>
             <Td padding={2}>
-                <Flex gap={2}>
+                <Flex alignSelf="right" justifyContent="flex-end" gap={2}>
                     <Button
                         backgroundColor="#FFF"
                         borderColor="red.500"

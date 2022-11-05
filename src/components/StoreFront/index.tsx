@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import { AddTodo } from '../AddTodo/AddTodo';
-import { TodoList } from '../TodoList';
+import { TodoListTable } from '../TodoListTable';
 import { TopBar } from '../TopBar/TopBar';
 
 export const StoreFront = () => {
@@ -18,7 +18,7 @@ export const StoreFront = () => {
             >
                 <AddTodo />
                 <Box marginTop={4} paddingX={4}>
-                    <TodoList />
+                    <TodoListTable />
                 </Box>
             </Flex>
         </>
