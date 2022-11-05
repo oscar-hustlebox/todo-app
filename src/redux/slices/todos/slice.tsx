@@ -53,10 +53,18 @@ export const todosSlice = createSlice({
                 return asset;
             });
         },
+        toggleComplete: (state, action) => {
+            return state.map((asset) => {
+                if (asset.id === action.payload) {
+                    return { ...asset, isComplete: !asset.isComplete };
+                }
+                return asset;
+            });
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { getTodos, addTodo, removeTodo } = todosSlice.actions;
+export const { getTodos, addTodo, updateTodo, removeTodo, toggleComplete } = todosSlice.actions;
 
 export default todosSlice.reducer;

@@ -1,14 +1,15 @@
 import React, { ReactElement } from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import { SimpleGrid } from '@chakra-ui/react';
+import { Flex, SimpleGrid } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { addTodo } from '../../redux/slices/todos/slice';
+import { addTodo, TodoState, updateTodo } from '../../redux/slices/todos/slice';
 import { InputField } from './InputField';
 import { SubmitButton } from './SubmitButton';
+import { CancelButton } from './CancelButton';
 
 export type FormValues = {
     name: string;
@@ -23,14 +24,11 @@ const schema = yup
     })
     .required();
 
-export const TodoForm = (): ReactElement => {
+export const TodoForm = ({ selectedTodo, cb }: { selectedTodo?: TodoState; cb?: () => void }): ReactElement => {
     /* Using the `useForm` hook to create a form. */
     const methods = useForm<FormValues>({
         resolver: yupResolver(schema),
-        defaultValues: {
-            name: '',
-            isCompleted: false,
-        },
+        defaultValues: selectedTodo ? selectedTodo : { name: '', isCompleted: false },
     });
     const { reset, handleSubmit } = methods;
     const dispatch = useDispatch();
@@ -42,16 +40,28 @@ export const TodoForm = (): ReactElement => {
      */
     const onSubmit: SubmitHandler<FormValues> = (formValues) => {
         /* Dispatching an action to the redux store. */
-        dispatch(addTodo({ ...formValues, id: uuidv4() }));
+        if (selectedTodo && cb) {
+            dispatch(updateTodo({ ...selectedTodo, ...formValues }));
+            cb();
+        } else {
+            dispatch(addTodo({ ...formValues, id: uuidv4() }));
+        }
         reset();
     };
 
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={2}>
-                    <InputField name="name" labelText="Name" placeholderText="e.g. Wash the car, take out the trash" />
-                    <SubmitButton />
+                <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={2} alignItems="center">
+                    <InputField
+                        name="name"
+                        labelText={selectedTodo ? '' : 'Name'}
+                        placeholderText="e.g. Wash the car, take out the trash"
+                    />
+                    <Flex gap={2}>
+                        <SubmitButton isEditing={!!selectedTodo} />
+                        {cb && <CancelButton handleClose={cb} />}
+                    </Flex>
                 </SimpleGrid>
             </form>
         </FormProvider>

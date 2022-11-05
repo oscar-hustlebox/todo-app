@@ -1,23 +1,39 @@
-import React from 'react';
-import { Button, Flex, Heading, Link, Td, Text, Tr } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import { Button, Flex, Heading, Td, Text, Tr, Checkbox } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
-import { TodoState, removeTodo } from '../../../redux/slices/todos/slice';
+import { TodoState, removeTodo, toggleComplete } from '../../../redux/slices/todos/slice';
+import { TodoForm } from '../../TodoForm/TodoForm';
 
 type TodoListItemProps = { todo: TodoState };
 
 export const TodoListItem = ({ todo }: TodoListItemProps) => {
     const dispatch = useDispatch();
+    const [selected, setSelected] = useState<TodoState | null>();
+
+    useEffect(() => {
+        if (selected) {
+            console.log(selected);
+        }
+    }, [selected]);
 
     return (
         <Tr>
             <Td padding={2} overflow="hidden" wordBreak="break-word">
-                <Text
-                    {...(todo.isComplete
-                        ? { textDecorationColor: 'blackAlpha.500', textDecoration: 'line-through' }
-                        : {})}
-                >
-                    {todo.name}
-                </Text>
+                {selected?.id === todo.id ? (
+                    <TodoForm selectedTodo={todo} cb={() => setSelected(null)} />
+                ) : (
+                    <Flex gap={4}>
+                        <Checkbox isChecked={todo.isComplete} onChange={() => dispatch(toggleComplete(todo.id))}>
+                            <Text
+                                {...(todo.isComplete
+                                    ? { textDecorationColor: 'blackAlpha.500', textDecoration: 'line-through' }
+                                    : {})}
+                            >
+                                {todo.name}
+                            </Text>
+                        </Checkbox>
+                    </Flex>
+                )}
             </Td>
             <Td padding={2}>
                 <Flex gap={2}>
@@ -33,6 +49,7 @@ export const TodoListItem = ({ todo }: TodoListItemProps) => {
                         borderRadius={4}
                         width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
                         onClick={() => dispatch(removeTodo(todo.id))}
+                        disabled={selected?.id === todo.id}
                     >
                         <Heading size="xs" textTransform="uppercase">
                             Remove
@@ -49,10 +66,11 @@ export const TodoListItem = ({ todo }: TodoListItemProps) => {
                         color="green.500"
                         borderRadius={4}
                         width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
-                        onClick={() => console.log('selected')}
+                        onClick={() => setSelected(todo)}
+                        disabled={selected?.id === todo.id}
                     >
                         <Heading size="xs" textTransform="uppercase">
-                            Update
+                            Edit
                         </Heading>
                     </Button>
                 </Flex>

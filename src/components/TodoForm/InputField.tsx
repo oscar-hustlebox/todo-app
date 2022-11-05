@@ -15,10 +15,12 @@ export const InputField = ({ name, labelText, placeholderText }: InputFieldProps
         formState: { errors },
     } = useFormContext();
     return (
-        <Box mb={3}>
-            <Heading size="xs" fontWeight="light" mb={1}>
-                {labelText}
-            </Heading>
+        <Box>
+            {labelText && (
+                <Heading size="xs" fontWeight="light" mb={1}>
+                    {labelText}
+                </Heading>
+            )}
             <Input
                 {...register(name)}
                 type="text"

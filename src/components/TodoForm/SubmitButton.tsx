@@ -1,12 +1,14 @@
 import React, { ReactElement } from 'react';
 import { Box, Button, Heading } from '@chakra-ui/react';
 
-export const SubmitButton = (): ReactElement => {
+export const SubmitButton = ({ isEditing }: { isEditing?: boolean }): ReactElement => {
     return (
-        <Box mb={3}>
-            <Heading size="xs" fontWeight="light" mb={1}>
-                &nbsp;
-            </Heading>
+        <Box>
+            {!isEditing && (
+                <Heading size="xs" fontWeight="light" mb={1}>
+                    &nbsp;
+                </Heading>
+            )}
             <Button
                 type="submit"
                 backgroundColor="gray.500"
@@ -18,7 +20,7 @@ export const SubmitButton = (): ReactElement => {
                 width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
             >
                 <Heading size="xs" textTransform="uppercase">
-                    Add
+                    {isEditing ? 'Save Changes' : 'Add'}
                 </Heading>
             </Button>
         </Box>
