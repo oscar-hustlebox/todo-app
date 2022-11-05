@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Box, Button, Heading } from '@chakra-ui/react';
 
-export const SubmitButton = ({ isEditing }: { isEditing?: boolean }): ReactElement => {
+export const SubmitButton = ({ isEditing = false }: { isEditing: boolean }): ReactElement => {
     return (
         <Box>
             {!isEditing && (
@@ -20,7 +20,7 @@ export const SubmitButton = ({ isEditing }: { isEditing?: boolean }): ReactEleme
                 width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
             >
                 <Heading size="xs" textTransform="uppercase">
-                    {isEditing ? 'Save Changes' : 'Add'}
+                    {isEditing ? 'Save' : 'Add'}
                 </Heading>
             </Button>
         </Box>

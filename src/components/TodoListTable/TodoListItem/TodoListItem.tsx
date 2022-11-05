@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Flex, Heading, Td, Text, Tr, Checkbox } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
-import { TodoState, removeTodo, toggleComplete } from '../../../redux/slices/todos/slice';
+import { TodoState, removeTodo, toggleTodoComplete } from '../../../redux/slices/todos/slice';
 import { TodoForm } from '../../TodoForm/TodoForm';
 
 type TodoListItemProps = { todo: TodoState };
@@ -10,20 +10,14 @@ export const TodoListItem = ({ todo }: TodoListItemProps) => {
     const dispatch = useDispatch();
     const [selected, setSelected] = useState<TodoState | null>();
 
-    useEffect(() => {
-        if (selected) {
-            console.log(selected);
-        }
-    }, [selected]);
-
     return (
         <Tr>
             <Td padding={2} overflow="hidden" wordBreak="break-word">
                 {selected?.id === todo.id ? (
-                    <TodoForm selectedTodo={todo} cb={() => setSelected(null)} />
+                    <TodoForm todo={todo} handleCancel={() => setSelected(null)} />
                 ) : (
                     <Flex gap={4}>
-                        <Checkbox isChecked={todo.isComplete} onChange={() => dispatch(toggleComplete(todo.id))}>
+                        <Checkbox isChecked={todo.isComplete} onChange={() => dispatch(toggleTodoComplete(todo.id))}>
                             <Text
                                 {...(todo.isComplete
                                     ? { textDecorationColor: 'blackAlpha.500', textDecoration: 'line-through' }
@@ -52,7 +46,7 @@ export const TodoListItem = ({ todo }: TodoListItemProps) => {
                         disabled={selected?.id === todo.id}
                     >
                         <Heading size="xs" textTransform="uppercase">
-                            Remove
+                            Delete
                         </Heading>
                     </Button>
                     <Button

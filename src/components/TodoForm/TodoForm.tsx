@@ -24,12 +24,18 @@ const schema = yup
     })
     .required();
 
-export const TodoForm = ({ selectedTodo, cb }: { selectedTodo?: TodoState; cb?: () => void }): ReactElement => {
+type TodoFormProps = {
+    todo?: TodoState;
+    handleCancel?: () => void;
+};
+
+export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement => {
     /* Using the `useForm` hook to create a form. */
     const methods = useForm<FormValues>({
         resolver: yupResolver(schema),
-        defaultValues: selectedTodo ? selectedTodo : { name: '', isCompleted: false },
+        defaultValues: todo ? todo : { name: '', isCompleted: false },
     });
+
     const { reset, handleSubmit } = methods;
     const dispatch = useDispatch();
 
@@ -40,9 +46,9 @@ export const TodoForm = ({ selectedTodo, cb }: { selectedTodo?: TodoState; cb?: 
      */
     const onSubmit: SubmitHandler<FormValues> = (formValues) => {
         /* Dispatching an action to the redux store. */
-        if (selectedTodo && cb) {
-            dispatch(updateTodo({ ...selectedTodo, ...formValues }));
-            cb();
+        if (todo && handleCancel) {
+            dispatch(updateTodo({ ...todo, ...formValues }));
+            handleCancel();
         } else {
             dispatch(addTodo({ ...formValues, id: uuidv4() }));
         }
@@ -55,12 +61,12 @@ export const TodoForm = ({ selectedTodo, cb }: { selectedTodo?: TodoState; cb?: 
                 <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={2} alignItems="center">
                     <InputField
                         name="name"
-                        labelText={selectedTodo ? '' : 'Name'}
+                        labelText={todo ? '' : 'Name'}
                         placeholderText="e.g. Wash the car, take out the trash"
                     />
                     <Flex gap={2}>
-                        <SubmitButton isEditing={!!selectedTodo} />
-                        {cb && <CancelButton handleClose={cb} />}
+                        <SubmitButton isEditing={!!todo} />
+                        <CancelButton handleClose={handleCancel} />
                     </Flex>
                 </SimpleGrid>
             </form>

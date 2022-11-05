@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Text } from '@chakra-ui/react';
 
-export const CancelButton = ({ handleClose }: { handleClose: () => void }) => {
+export const CancelButton = ({ handleClose }: { handleClose?: () => void }): React.ReactElement | null => {
+    if (!handleClose) return null;
     return (
         <Button
             variant="outline"
