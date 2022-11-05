@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Flex, Heading, Td, Text, Tr, Checkbox } from '@chakra-ui/react';
+import { Button, Flex, Heading, Td, Text, Tr, Checkbox, IconButton } from '@chakra-ui/react';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { TodoState, removeTodo, toggleTodoComplete } from '../../../redux/slices/todos/slice';
 import { TodoForm } from '../../TodoForm/TodoForm';
@@ -17,7 +18,12 @@ export const TodoListItem = ({ todo }: TodoListItemProps) => {
                     <TodoForm todo={todo} handleCancel={() => setSelected(null)} />
                 ) : (
                     <Flex gap={4}>
-                        <Checkbox isChecked={todo.isComplete} onChange={() => dispatch(toggleTodoComplete(todo.id))}>
+                        <Checkbox
+                            isChecked={todo.isComplete}
+                            onChange={() => dispatch(toggleTodoComplete(todo.id))}
+                            size="lg"
+                            width={'full'}
+                        >
                             <Text
                                 {...(todo.isComplete
                                     ? { textDecorationColor: 'blackAlpha.500', textDecoration: 'line-through' }
@@ -31,42 +37,20 @@ export const TodoListItem = ({ todo }: TodoListItemProps) => {
             </Td>
             <Td padding={2}>
                 <Flex alignSelf="right" justifyContent="flex-end" gap={2}>
-                    <Button
-                        backgroundColor="#FFF"
-                        borderColor="red.500"
-                        borderWidth={1}
-                        _hover={{
-                            backgroundColor: 'red.500',
-                            color: '#FFF',
-                        }}
-                        color="red.500"
-                        borderRadius={4}
-                        width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
+                    <IconButton
+                        colorScheme="red"
+                        aria-label="delete todo"
+                        icon={<DeleteIcon />}
                         onClick={() => dispatch(removeTodo(todo.id))}
                         disabled={selected?.id === todo.id}
-                    >
-                        <Heading size="xs" textTransform="uppercase">
-                            Delete
-                        </Heading>
-                    </Button>
-                    <Button
-                        backgroundColor="#FFF"
-                        borderColor="green.500"
-                        borderWidth={1}
-                        _hover={{
-                            backgroundColor: 'green.500',
-                            color: '#FFF',
-                        }}
-                        color="green.500"
-                        borderRadius={4}
-                        width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
+                    />
+                    <IconButton
+                        colorScheme="yellow"
+                        aria-label="edit todo"
+                        icon={<EditIcon />}
                         onClick={() => setSelected(todo)}
                         disabled={selected?.id === todo.id}
-                    >
-                        <Heading size="xs" textTransform="uppercase">
-                            Edit
-                        </Heading>
-                    </Button>
+                    />
                 </Flex>
             </Td>
         </Tr>
