@@ -18,11 +18,6 @@ export const TodoListItems = () => {
                         </Th>
                         <Th padding={2}>
                             <Text fontWeight="extrabold" casing="capitalize">
-                                Done?
-                            </Text>
-                        </Th>
-                        <Th padding={2}>
-                            <Text fontWeight="extrabold" casing="capitalize">
                                 Actions
                             </Text>
                         </Th>

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export type TodoState = {
     id: string;
-    description: string;
+    name: string;
     isComplete: boolean;
 };
 
@@ -12,22 +12,22 @@ export type TodosState = TodoState[];
 export const initialState: TodosState = [
     {
         id: uuidv4(),
-        description: 'Manage software development projects',
+        name: 'Walk the dog',
         isComplete: false,
     },
     {
         id: uuidv4(),
-        description: 'Code hosting platform',
+        name: 'Wash the car',
         isComplete: true,
     },
     {
         id: uuidv4(),
-        description: 'Create issues',
+        name: 'Take out the trash',
         isComplete: true,
     },
     {
         id: uuidv4(),
-        description: 'New Asset description',
+        name: 'Buy groceries',
         isComplete: false,
     },
 ];
@@ -44,6 +44,14 @@ export const todosSlice = createSlice({
         },
         removeTodo: (state, action) => {
             return state.filter((asset) => asset.id !== action.payload);
+        },
+        updateTodo: (state, action) => {
+            return state.map((asset) => {
+                if (asset.id === action.payload.id) {
+                    return { ...asset, ...action.payload };
+                }
+                return asset;
+            });
         },
     },
 });
