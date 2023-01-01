@@ -4,7 +4,7 @@ import { AddTodo } from '../AddTodo/AddTodo';
 import { TodoListTable } from '../TodoListTable';
 import { TopBar } from '../TopBar/TopBar';
 
-export const StoreFront = () => {
+export const TodosView = () => {
     return (
         <>
             <TopBar />
