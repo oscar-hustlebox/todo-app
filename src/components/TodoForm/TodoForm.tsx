@@ -10,6 +10,7 @@ import { addTodo, TodoState, updateTodo } from '../../redux/slices/todos/slice';
 import { InputField } from './InputField';
 import { SubmitButton } from './SubmitButton';
 import { CancelButton } from './CancelButton';
+import { ErrorMessage } from './ErrorMessage';
 
 export type FormValues = {
     name: string;
@@ -38,7 +39,7 @@ export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement =>
         defaultValues: todo ? todo : { name: '', isCompleted: false },
     });
 
-    const { reset, handleSubmit } = methods;
+    const { reset, handleSubmit, formState } = methods;
     const dispatch = useDispatch();
 
     /**
@@ -65,12 +66,14 @@ export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement =>
                         name="name"
                         labelText={todo ? '' : 'Name'}
                         placeholderText="e.g. Wash the car, take out the trash"
+                        isInvalid={!!formState.errors.name}
                     />
                     <Flex gap={2}>
                         <SubmitButton isEditing={!!todo} />
                         <CancelButton handleClose={handleCancel} />
                     </Flex>
                 </SimpleGrid>
+                {formState.errors && <ErrorMessage message={formState.errors?.name?.message?.toString() || ''} />}
             </form>
         </FormProvider>
     );

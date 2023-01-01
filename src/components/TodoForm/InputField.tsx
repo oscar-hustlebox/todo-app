@@ -1,19 +1,16 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Box, Heading, Input } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
-import { ErrorMessage } from './ErrorMessage';
 
 type InputFieldProps = {
     name: string;
     labelText: string;
     placeholderText: string;
+    isInvalid: boolean;
 };
 
-export const InputField = ({ name, labelText, placeholderText }: InputFieldProps): ReactElement => {
-    const {
-        register,
-        formState: { errors },
-    } = useFormContext();
+export const InputField = ({ name, labelText, placeholderText, isInvalid }: InputFieldProps): ReactElement => {
+    const { register } = useFormContext();
     return (
         <Box>
             {labelText && (
@@ -28,9 +25,8 @@ export const InputField = ({ name, labelText, placeholderText }: InputFieldProps
                 borderColor="gray.200"
                 backgroundColor="#FFFFFF"
                 errorBorderColor="red.300"
-                isInvalid={!!errors.name}
+                isInvalid={isInvalid}
             />
-            {errors?.[name]?.message && <ErrorMessage message={errors?.[name]?.message?.toString() || ''} />}
         </Box>
     );
 };
