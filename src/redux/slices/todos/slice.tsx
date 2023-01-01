@@ -5,6 +5,7 @@ export type TodoState = {
     id: string;
     name: string;
     isComplete: boolean;
+    description?: string;
     favorite: boolean;
 };
 
@@ -14,18 +15,21 @@ export const initialState: TodosState = [
     {
         id: uuidv4(),
         name: 'Walk the dog',
+        description: 'Take the dog for a walk around the block',
         isComplete: false,
         favorite: false,
     },
     {
         id: uuidv4(),
         name: 'Wash the car',
+        description: 'Wash the car with soap and water',
         isComplete: true,
         favorite: false,
     },
     {
         id: uuidv4(),
         name: 'Take out the trash',
+        description: 'Take out the trash to the curb',
         isComplete: true,
         favorite: false,
     },

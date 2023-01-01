@@ -11,10 +11,12 @@ import { InputField } from './InputField';
 import { SubmitButton } from './SubmitButton';
 import { CancelButton } from './CancelButton';
 import { ErrorMessage } from './ErrorMessage';
+import { TextAreaField } from './TextAreaField';
 
 export type FormValues = {
     name: string;
     isCompleted: boolean;
+    description?: string;
     favorite?: boolean;
 };
 
@@ -23,6 +25,7 @@ const schema = yup
     .object({
         name: yup.string().required(),
         isCompleted: yup.boolean().notRequired(),
+        description: yup.string().notRequired(),
         favorite: yup.boolean().notRequired(),
     })
     .required();
@@ -61,10 +64,16 @@ export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement =>
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={2} alignItems="center">
+                <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={2} alignItems="center">
                     <InputField
                         name="name"
-                        labelText={todo ? '' : 'Name'}
+                        labelText={todo ? '' : 'Name *'}
+                        placeholderText="e.g. Wash the car, take out the trash"
+                        isInvalid={!!formState.errors.name}
+                    />
+                    <TextAreaField
+                        name="description"
+                        labelText={todo ? '' : 'Description (optional)'}
                         placeholderText="e.g. Wash the car, take out the trash"
                         isInvalid={!!formState.errors.name}
                     />

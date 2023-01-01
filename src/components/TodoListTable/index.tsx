@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { ChevronUpIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import { Flex, Table, TableContainer, Tbody, Text, Th, Thead, Tr } from '@chakra-ui/react';
-
+import { Flex, Table, TableContainer, Tbody, Th, Thead, Text, Tr } from '@chakra-ui/react';
 import { sortByChanged } from '../../redux/slices/sortBy/slice';
 
 import { TodoListItems } from './TodoListItems/TodoListItems';
