@@ -5,6 +5,7 @@ export type TodoState = {
     id: string;
     name: string;
     isComplete: boolean;
+    favorite: boolean;
 };
 
 export type TodosState = TodoState[];
@@ -14,21 +15,25 @@ export const initialState: TodosState = [
         id: uuidv4(),
         name: 'Walk the dog',
         isComplete: false,
+        favorite: false,
     },
     {
         id: uuidv4(),
         name: 'Wash the car',
         isComplete: true,
+        favorite: false,
     },
     {
         id: uuidv4(),
         name: 'Take out the trash',
         isComplete: true,
+        favorite: false,
     },
     {
         id: uuidv4(),
         name: 'Buy groceries',
         isComplete: false,
+        favorite: true,
     },
 ];
 
@@ -36,8 +41,8 @@ export const todosSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
-        getTodos: (state, action) => {
-            state = action.payload;
+        getTodos: (_state, action) => {
+            return action.payload;
         },
         addTodo: (state, action) => {
             return [...state, action.payload];
@@ -61,10 +66,19 @@ export const todosSlice = createSlice({
                 return asset;
             });
         },
+        favoriteTodo: (state, action) => {
+            return [...state].map((asset) => {
+                console.log('asset', asset);
+                if (asset.id === action.payload) {
+                    return { ...asset, favorite: !asset.favorite };
+                }
+                return asset;
+            });
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { getTodos, addTodo, updateTodo, removeTodo, toggleTodoComplete } = todosSlice.actions;
+export const { getTodos, addTodo, updateTodo, removeTodo, toggleTodoComplete, favoriteTodo } = todosSlice.actions;
 
 export default todosSlice.reducer;

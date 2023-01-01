@@ -14,6 +14,7 @@ import { CancelButton } from './CancelButton';
 export type FormValues = {
     name: string;
     isCompleted: boolean;
+    favorite?: boolean;
 };
 
 /* Creating a schema that is used to validate the form values. */
@@ -21,6 +22,7 @@ const schema = yup
     .object({
         name: yup.string().required(),
         isCompleted: yup.boolean().notRequired(),
+        favorite: yup.boolean().notRequired(),
     })
     .required();
 
