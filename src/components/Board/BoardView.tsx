@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { Box, Heading, Divider, Text, Flex } from '@chakra-ui/react';
 
 import reorder, { columnCardMap, reorderCardMap } from '../../utils';
 import { RootState } from '../../redux/store';
-import { Box } from '@chakra-ui/react';
+import { TopBar } from '../TopBar/TopBar';
+import { AddTodo } from '../AddTodo/AddTodo';
 
 const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
     return (
@@ -15,23 +17,25 @@ const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
         >
-            <div
-                style={{
-                    display: 'flex',
-                    flexGrow: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '0.5rem',
-                    marginBottom: '0.5rem',
-                    backgroundColor: 'white',
-                    border: '1px solid black',
-                    borderRadius: '4px',
-                    transition: 'background-color 0.2s ease',
-                    userSelect: 'none',
-                }}
+            <Box
+                display="flex"
+                flexDirection="column"
+                p={4}
+                maxWidth="32rem"
+                borderWidth={1}
+                margin={2}
+                bgColor="white"
+                borderRadius={8}
+                boxShadow="md"
             >
-                {card.name}
-            </div>
+                <Heading as="h5" fontSize="xs" fontWeight="medium" pb="2">
+                    {card.name}
+                </Heading>
+                <Divider />
+                <Text fontSize="xs" pt="2">
+                    {card.description}
+                </Text>
+            </Box>
         </div>
     );
 };
@@ -120,7 +124,16 @@ const CardList = ({
 const Column = ({ title, cards, index, isCombineEnabled }: any) => (
     <Draggable draggableId={title} index={index}>
         {(provided: any, snapshot: any) => (
-            <Box ref={provided.innerRef} {...provided.draggableProps} margin="2" display="flex" flexDir="column">
+            <Box
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                display="flex"
+                flexDir="column"
+                margin={2}
+                bgColor="#F2F2F4"
+                borderRadius={8}
+                border="1px solid #E2E8F0"
+            >
                 <div
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     /* @ts-ignore */
@@ -131,12 +144,16 @@ const Column = ({ title, cards, index, isCombineEnabled }: any) => (
                         justifyContent: 'center',
                     }}
                 >
-                    <h4
+                    <Heading
+                        as="h4"
+                        fontSize="md"
+                        fontWeight="bold"
+                        p="2"
+                        ml="2"
                         isDragging={snapshot.isDragging}
                         {...provided.dragHandleProps}
                         style={{
                             display: 'flex',
-                            padding: '0.5rem',
                             transition: 'ease',
                             transitionDuration: '0.2s',
                             flexGrow: 1,
@@ -145,7 +162,7 @@ const Column = ({ title, cards, index, isCombineEnabled }: any) => (
                         }}
                     >
                         {title}
-                    </h4>
+                    </Heading>
                 </div>
                 <CardList
                     listId={title}
@@ -164,8 +181,8 @@ const Column = ({ title, cards, index, isCombineEnabled }: any) => (
 const Board = ({ initialBoard }: any) => {
     const [columns, setColumns] = useState<any>();
     const [ordered, setOrdered] = useState<any>();
-    const [containerHeight, setContainerHeight] = useState<any>(500);
-    const [isCombineEnabled, setIsCombineEnabled] = useState<boolean>(false);
+    const [containerHeight] = useState<any>(500);
+    const [isCombineEnabled] = useState<boolean>(false);
 
     useEffect(() => {
         setColumns(initialBoard);
@@ -230,7 +247,7 @@ const Board = ({ initialBoard }: any) => {
             isCombineEnabled={isCombineEnabled}
         >
             {(provided: any) => (
-                <Box bgColor="blue.300" display="inline-flex" ref={provided.innerRef} {...provided.droppableProps}>
+                <Box height="100vh" display="flex" ref={provided.innerRef} {...provided.droppableProps}>
                     {ordered?.map((key: any, index: any) => (
                         <Column
                             key={key}
@@ -263,7 +280,11 @@ export const BoardView = () => {
 
     return (
         <>
-            <Board initialBoard={initialBoard} />
+            <TopBar />
+            <Flex flexDir="column" padding={2} borderTop="1px" borderColor="gray.200" backgroundColor="white">
+                <AddTodo />
+                <Board initialBoard={initialBoard} />
+            </Flex>
         </>
     );
 };
