@@ -18,6 +18,7 @@ export type FormValues = {
     isCompleted: boolean;
     description?: string;
     favorite?: boolean;
+    boardID?: string;
 };
 
 /* Creating a schema that is used to validate the form values. */
@@ -27,6 +28,7 @@ const schema = yup
         isCompleted: yup.boolean().notRequired(),
         description: yup.string().notRequired(),
         favorite: yup.boolean().notRequired(),
+        boardID: yup.string().notRequired(),
     })
     .required();
 
@@ -39,7 +41,7 @@ export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement =>
     /* Using the `useForm` hook to create a form. */
     const methods = useForm<FormValues>({
         resolver: yupResolver(schema),
-        defaultValues: todo ? todo : { name: '', isCompleted: false },
+        defaultValues: todo ? todo : { name: '', isCompleted: false, boardID: '1' },
     });
 
     const { reset, handleSubmit, formState } = methods;
