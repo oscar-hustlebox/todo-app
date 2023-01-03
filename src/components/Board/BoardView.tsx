@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Box, Heading, Divider, Text, Flex } from '@chakra-ui/react';
 
@@ -7,6 +7,8 @@ import reorder, { columnCardMap, reorderCardMap } from '../../utils';
 import { RootState } from '../../redux/store';
 import { TopBar } from '../TopBar/TopBar';
 import { AddTodo } from '../AddTodo/AddTodo';
+import { updateBoard } from '../../redux/slices/board/slice';
+import { updateTodo } from '../../redux/slices/todos/slice';
 
 const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
     return (
@@ -166,7 +168,7 @@ const Column = ({ title, cards, index, isCombineEnabled }: any) => (
                 </div>
                 <CardList
                     listId={title}
-                    listType="QUOTE"
+                    listType="CARD"
                     style={{
                         backgroundColor: snapshot.isDragging ? 'gray' : null,
                     }}
@@ -181,13 +183,30 @@ const Column = ({ title, cards, index, isCombineEnabled }: any) => (
 const Board = ({ initialBoard }: any) => {
     const [columns, setColumns] = useState<any>();
     const [ordered, setOrdered] = useState<any>();
+    const [newBoardState, setNewBoardState] = useState<any>();
+    const [newCardState, setNewCardState] = useState<any>();
     const [containerHeight] = useState<any>(500);
     const [isCombineEnabled] = useState<boolean>(false);
+
+    const boardState = useSelector((state: Pick<RootState, 'board'>) => state.board);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setColumns(initialBoard);
         setOrdered(Object.keys(initialBoard));
     }, [initialBoard]);
+
+    useEffect(() => {
+        if (newBoardState) {
+            dispatch(updateBoard(newBoardState));
+        }
+    }, [newBoardState, dispatch]);
+
+    useEffect(() => {
+        if (newCardState) {
+            dispatch(updateTodo(newCardState));
+        }
+    }, [newCardState, dispatch]);
 
     const onDragEnd = (result: any) => {
         if (result.combine) {
@@ -214,7 +233,9 @@ const Board = ({ initialBoard }: any) => {
             return;
         }
 
+        /* Getting the source of the draggable item. */
         const source = result.source;
+        /* Getting the destination of the draggable item. */
         const destination = result.destination;
 
         // did not move anywhere - can bail early
@@ -224,8 +245,9 @@ const Board = ({ initialBoard }: any) => {
 
         // reordering column
         if (result.type === 'COLUMN') {
-            const newOrdered = reorder(ordered, source.index, destination.index);
-
+            const newOrdered = reorder(ordered, source.index, destination.index); // eg. ['todo', 'in-progress', 'done']
+            /* Updating the board state with the new order of the columns. */
+            setNewBoardState(newOrdered?.map((name: any) => boardState.find((item: any) => item.name === name)));
             setOrdered(newOrdered);
             return;
         }
@@ -235,6 +257,14 @@ const Board = ({ initialBoard }: any) => {
             source,
             destination,
         });
+
+        const payload = {
+            id: result.draggableId,
+            boardID: boardState.find((b: any) => b.name === destination.droppableId)?.id,
+        };
+
+        setNewCardState(payload);
+
         setColumns(data.cardMap);
     };
 

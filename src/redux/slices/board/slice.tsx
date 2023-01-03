@@ -26,13 +26,16 @@ export const boardSlice = createSlice({
     name: 'board',
     initialState,
     reducers: {
-        getBoards: (_state, action) => {
+        getBoard: (_state, action) => {
+            return action.payload;
+        },
+        updateBoard: (_state, action) => {
             return action.payload;
         },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { getBoards } = boardSlice.actions;
+export const { getBoard, updateBoard } = boardSlice.actions;
 
 export default boardSlice.reducer;
