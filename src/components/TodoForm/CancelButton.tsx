@@ -1,7 +1,13 @@
 import React from 'react';
 import { Button, Text } from '@chakra-ui/react';
 
-export const CancelButton = ({ handleClose }: { handleClose?: () => void }): React.ReactElement | null => {
+export const CancelButton = ({
+    handleClose,
+    isEditing = false,
+}: {
+    handleClose?: () => void;
+    isEditing?: boolean;
+}): React.ReactElement | null => {
     if (!handleClose) return null;
     return (
         <Button
@@ -16,6 +22,7 @@ export const CancelButton = ({ handleClose }: { handleClose?: () => void }): Rea
             borderRadius={4}
             width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
             onClick={() => handleClose()}
+            size={isEditing ? 'xs' : 'md'}
         >
             <Text size="xs" textTransform="uppercase">
                 Cancel

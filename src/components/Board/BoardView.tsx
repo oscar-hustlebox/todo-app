@@ -1,16 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { Box, Heading, Divider, Text, Flex } from '@chakra-ui/react';
+import { Box, Heading, Divider, Text, Flex, IconButton } from '@chakra-ui/react';
 
 import reorder, { columnCardMap, reorderCardMap } from '../../utils';
 import { RootState } from '../../redux/store';
 import { TopBar } from '../TopBar/TopBar';
 import { AddTodo } from '../AddTodo/AddTodo';
 import { updateBoard } from '../../redux/slices/board/slice';
-import { updateTodo } from '../../redux/slices/todos/slice';
+import { TodoState, favoriteTodo, removeTodo, updateTodo } from '../../redux/slices/todos/slice';
+import { DeleteIcon, EditIcon, StarIcon } from '@chakra-ui/icons';
+import { TodoForm } from '../TodoForm/TodoForm';
+import { TodoFormCard } from '../TodoForm/TodoFormCard';
 
 const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
+    const dispatch = useDispatch();
+    const [selected, setSelected] = useState<TodoState | null>();
+
+    /* Checking if the selected todo is the same as the current todo. */
+    const isSelected = selected?.id === card.id;
+
     return (
         <div
             isDragging={isDragging}
@@ -30,13 +39,46 @@ const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
                 borderRadius={8}
                 boxShadow="md"
             >
-                <Heading as="h5" fontSize="xs" fontWeight="medium" pb="2">
-                    {card.name}
-                </Heading>
+                {selected?.id === card.id ? (
+                    <TodoFormCard todo={card} handleCancel={() => setSelected(null)} />
+                ) : (
+                    <>
+                        <Heading as="h5" fontSize="xs" fontWeight="medium" pb="2">
+                            {card.name}
+                        </Heading>
+                        <Divider />
+                        <Text fontSize="xs" pt="2">
+                            {card.description}
+                        </Text>
+                    </>
+                )}
                 <Divider />
-                <Text fontSize="xs" pt="2">
-                    {card.description}
-                </Text>
+                <Flex alignSelf="right" justifyContent="flex-end" gap={2} mt="4">
+                    <IconButton
+                        size="xs"
+                        colorScheme={card.favorite ? 'yellow' : 'gray'}
+                        aria-label="favorited todo"
+                        icon={<StarIcon />}
+                        onClick={() => dispatch(favoriteTodo(card.id))}
+                        disabled={isSelected}
+                    />
+                    <IconButton
+                        size="xs"
+                        colorScheme="red"
+                        aria-label="delete todo"
+                        icon={<DeleteIcon />}
+                        onClick={() => dispatch(removeTodo(card.id))}
+                        disabled={isSelected}
+                    />
+                    <IconButton
+                        size="xs"
+                        colorScheme="teal"
+                        aria-label="edit todo"
+                        icon={<EditIcon />}
+                        onClick={() => setSelected(card)}
+                        disabled={isSelected}
+                    />
+                </Flex>
             </Box>
         </div>
     );

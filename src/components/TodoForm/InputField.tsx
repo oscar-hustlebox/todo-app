@@ -7,9 +7,16 @@ type InputFieldProps = {
     labelText: string;
     placeholderText: string;
     isInvalid: boolean;
+    isEditing?: boolean;
 };
 
-export const InputField = ({ name, labelText, placeholderText, isInvalid }: InputFieldProps): ReactElement => {
+export const InputField = ({
+    name,
+    labelText,
+    placeholderText,
+    isInvalid,
+    isEditing = false,
+}: InputFieldProps): ReactElement => {
     const { register } = useFormContext();
     return (
         <Box>
@@ -26,6 +33,7 @@ export const InputField = ({ name, labelText, placeholderText, isInvalid }: Inpu
                 backgroundColor="#FFFFFF"
                 errorBorderColor="red.300"
                 isInvalid={isInvalid}
+                {...(isEditing && { size: 'xs' })}
             />
         </Box>
     );

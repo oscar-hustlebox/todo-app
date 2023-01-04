@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import { Flex, SimpleGrid } from '@chakra-ui/react';
+import { Divider, Flex, SimpleGrid } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -32,12 +32,12 @@ const schema = yup
     })
     .required();
 
-type TodoFormProps = {
+type TodoFormCardProps = {
     todo?: TodoState;
     handleCancel?: () => void;
 };
 
-export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement => {
+export const TodoFormCard = ({ todo, handleCancel }: TodoFormCardProps): ReactElement => {
     /* Using the `useForm` hook to create a form. */
     const methods = useForm<FormValues>({
         resolver: yupResolver(schema),
@@ -67,24 +67,26 @@ export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement =>
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={2} alignItems="flex-end">
-                    <InputField
-                        name="name"
-                        labelText={todo ? '' : 'Name *'}
-                        placeholderText="e.g. Wash the car, take out the trash"
-                        isInvalid={!!formState.errors.name}
-                    />
-                    <TextAreaField
-                        name="description"
-                        labelText={todo ? '' : 'Description (optional)'}
-                        placeholderText="e.g. Wash the car, take out the trash"
-                        isInvalid={!!formState.errors.name}
-                    />
-                    <Flex gap={2}>
-                        <SubmitButton isEditing={Boolean(isEditing)} />
-                        <CancelButton handleClose={handleCancel} />
-                    </Flex>
-                </SimpleGrid>
+                <InputField
+                    name="name"
+                    labelText={todo ? '' : 'Name *'}
+                    placeholderText="e.g. Wash the car, take out the trash"
+                    isInvalid={!!formState.errors.name}
+                    isEditing={Boolean(isEditing)}
+                />
+                <Divider marginY={4} />
+                <TextAreaField
+                    name="description"
+                    labelText={todo ? '' : 'Description (optional)'}
+                    placeholderText="e.g. Wash the car, take out the trash"
+                    isInvalid={!!formState.errors.name}
+                    isEditing={Boolean(isEditing)}
+                />
+                <Divider marginBottom={4} />
+                <Flex gap={2} alignItems="center" marginBottom={4} width="100%">
+                    <CancelButton handleClose={handleCancel} isEditing={Boolean(isEditing)} />
+                    <SubmitButton isEditing={Boolean(isEditing)} />
+                </Flex>
                 {formState.errors && <ErrorMessage message={formState.errors?.name?.message?.toString() || ''} />}
             </form>
         </FormProvider>

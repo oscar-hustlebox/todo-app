@@ -7,9 +7,16 @@ type TextAreaFieldProps = {
     labelText: string;
     placeholderText: string;
     isInvalid: boolean;
+    isEditing?: boolean;
 };
 
-export const TextAreaField = ({ name, labelText, placeholderText, isInvalid }: TextAreaFieldProps): ReactElement => {
+export const TextAreaField = ({
+    name,
+    labelText,
+    placeholderText,
+    isInvalid,
+    isEditing = false,
+}: TextAreaFieldProps): ReactElement => {
     const { register } = useFormContext();
     return (
         <Box>
@@ -25,6 +32,7 @@ export const TextAreaField = ({ name, labelText, placeholderText, isInvalid }: T
                 backgroundColor="#FFFFFF"
                 errorBorderColor="red.300"
                 isInvalid={isInvalid}
+                {...(isEditing && { size: 'xs' })}
                 minHeight="40px"
             />
         </Box>

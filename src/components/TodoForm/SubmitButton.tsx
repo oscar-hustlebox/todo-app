@@ -1,28 +1,23 @@
 import React, { ReactElement } from 'react';
-import { Box, Button, Heading } from '@chakra-ui/react';
+import { Button, Text } from '@chakra-ui/react';
 
 export const SubmitButton = ({ isEditing = false }: { isEditing: boolean }): ReactElement => {
     return (
-        <Box>
-            {!isEditing && (
-                <Heading size="xs" fontWeight="light" mb={1}>
-                    &nbsp;
-                </Heading>
-            )}
-            <Button
-                type="submit"
-                backgroundColor="gray.500"
-                borderRadius={4}
-                _hover={{
-                    backgroundColor: 'gray.600',
-                }}
-                color="white"
-                width={{ sm: '100%', base: 'inherit', md: 'inherit' }}
-            >
-                <Heading size="xs" textTransform="uppercase">
-                    {isEditing ? 'Save' : 'Add'}
-                </Heading>
-            </Button>
-        </Box>
+        <Button
+            variant="solid"
+            type="submit"
+            backgroundColor="gray.500"
+            borderRadius={4}
+            _hover={{
+                backgroundColor: 'gray.500',
+            }}
+            color="white"
+            width={{ sm: '100%', base: '100%', md: 'inherit' }}
+            size={isEditing ? 'xs' : 'md'}
+        >
+            <Text size="xs" textTransform="uppercase">
+                {isEditing ? 'Save' : 'Add'}
+            </Text>
+        </Button>
     );
 };
