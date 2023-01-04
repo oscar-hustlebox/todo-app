@@ -7,10 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { addTask, TaskState, updateTask } from '../../redux/slices/tasks/slice';
-import { InputField } from './InputField';
-import { SubmitButton } from './SubmitButton';
-import { ErrorMessage } from './ErrorMessage';
-import { TextAreaField } from './TextAreaField';
+import { InputField } from './components/fields/InputField';
+import { SubmitButton } from './components/SubmitButton';
+import { ErrorMessage } from './components/ErrorMessage';
+import { TextAreaField } from './components/fields/TextAreaField';
+import { CancelButton } from './components/CancelButton';
 
 export type FormValues = {
     name: string;
@@ -72,18 +73,20 @@ export const TaskForm = ({ task, handleCancel }: TaskFormProps): ReactElement =>
                         labelText={task ? '' : 'Name *'}
                         placeholderText="e.g. Wash the car"
                         isInvalid={!!formState.errors.name}
+                        isEditing={Boolean(isEditing)}
                     />
                     <TextAreaField
                         name="description"
                         labelText={task ? '' : 'Description (optional)'}
                         placeholderText="e.g. Wash the car with soap and water"
                         isInvalid={!!formState.errors.name}
+                        isEditing={Boolean(isEditing)}
                     />
                     <Flex gap={2} alignItems="center" width="full">
                         {formState.errors && (
                             <ErrorMessage message={formState.errors?.name?.message?.toString() || ''} />
                         )}
-
+                        <CancelButton handleClose={handleCancel} isEditing={Boolean(isEditing)} />
                         <SubmitButton isEditing={Boolean(isEditing)} />
                     </Flex>
                 </Flex>

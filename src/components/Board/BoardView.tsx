@@ -9,7 +9,7 @@ import { TopBar } from '../TopBar/TopBar';
 import { updateBoard } from '../../redux/slices/board/slice';
 import { TaskState, favoriteTask, removeTask, updateTask } from '../../redux/slices/tasks/slice';
 import { DeleteIcon, EditIcon, StarIcon } from '@chakra-ui/icons';
-import { TaskFormCard } from '../TaskForm/TaskFormCard';
+import { TaskForm } from '../TaskForm/TaskForm';
 
 const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
     const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
                 boxShadow="md"
             >
                 {selected?.id === card.id ? (
-                    <TaskFormCard task={card} handleCancel={() => setSelected(null)} />
+                    <TaskForm task={card} handleCancel={() => setSelected(null)} />
                 ) : (
                     <>
                         <Heading as="h5" fontSize="xs" fontWeight="medium" pb="2">
