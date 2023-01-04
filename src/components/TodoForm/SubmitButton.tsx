@@ -6,13 +6,13 @@ export const SubmitButton = ({ isEditing = false }: { isEditing: boolean }): Rea
         <Button
             variant="solid"
             type="submit"
+            width="full"
             backgroundColor="gray.500"
-            borderRadius={4}
             _hover={{
-                backgroundColor: 'gray.500',
+                backgroundColor: 'gray.600',
             }}
+            borderRadius={4}
             color="white"
-            width={{ sm: '100%', base: '100%', md: 'inherit' }}
             size={isEditing ? 'xs' : 'md'}
         >
             <Text size="xs" textTransform="uppercase">

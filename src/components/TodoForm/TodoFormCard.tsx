@@ -83,7 +83,7 @@ export const TodoFormCard = ({ todo, handleCancel }: TodoFormCardProps): ReactEl
                     isEditing={Boolean(isEditing)}
                 />
                 <Divider marginBottom={4} />
-                <Flex gap={2} alignItems="center" marginBottom={4} width="100%">
+                <Flex gap={2} alignItems="center" width="full">
                     <CancelButton handleClose={handleCancel} isEditing={Boolean(isEditing)} />
                     <SubmitButton isEditing={Boolean(isEditing)} />
                 </Flex>

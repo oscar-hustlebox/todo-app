@@ -6,11 +6,9 @@ import { Box, Heading, Divider, Text, Flex, IconButton } from '@chakra-ui/react'
 import reorder, { columnCardMap, reorderCardMap } from '../../utils';
 import { RootState } from '../../redux/store';
 import { TopBar } from '../TopBar/TopBar';
-import { AddTodo } from '../AddTodo/AddTodo';
 import { updateBoard } from '../../redux/slices/board/slice';
 import { TodoState, favoriteTodo, removeTodo, updateTodo } from '../../redux/slices/todos/slice';
 import { DeleteIcon, EditIcon, StarIcon } from '@chakra-ui/icons';
-import { TodoForm } from '../TodoForm/TodoForm';
 import { TodoFormCard } from '../TodoForm/TodoFormCard';
 
 const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
@@ -354,7 +352,6 @@ export const BoardView = () => {
         <>
             <TopBar />
             <Flex flexDir="column" padding={2} borderTop="1px" borderColor="gray.200" backgroundColor="white">
-                <AddTodo />
                 <Board initialBoard={initialBoard} />
             </Flex>
         </>

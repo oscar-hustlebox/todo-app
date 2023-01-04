@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import { Flex, SimpleGrid } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,7 +9,6 @@ import * as yup from 'yup';
 import { addTodo, TodoState, updateTodo } from '../../redux/slices/todos/slice';
 import { InputField } from './InputField';
 import { SubmitButton } from './SubmitButton';
-import { CancelButton } from './CancelButton';
 import { ErrorMessage } from './ErrorMessage';
 import { TextAreaField } from './TextAreaField';
 
@@ -66,26 +65,28 @@ export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement =>
 
     return (
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={2} alignItems="flex-end">
+            <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+                <Flex flexDirection="column" alignItems="flex-start" gap={4}>
                     <InputField
                         name="name"
                         labelText={todo ? '' : 'Name *'}
-                        placeholderText="e.g. Wash the car, take out the trash"
+                        placeholderText="e.g. Wash the car"
                         isInvalid={!!formState.errors.name}
                     />
                     <TextAreaField
                         name="description"
                         labelText={todo ? '' : 'Description (optional)'}
-                        placeholderText="e.g. Wash the car, take out the trash"
+                        placeholderText="e.g. Wash the car with soap and water"
                         isInvalid={!!formState.errors.name}
                     />
-                    <Flex gap={2}>
+                    <Flex gap={2} alignItems="center" width="full">
+                        {formState.errors && (
+                            <ErrorMessage message={formState.errors?.name?.message?.toString() || ''} />
+                        )}
+
                         <SubmitButton isEditing={Boolean(isEditing)} />
-                        <CancelButton handleClose={handleCancel} />
                     </Flex>
-                </SimpleGrid>
-                {formState.errors && <ErrorMessage message={formState.errors?.name?.message?.toString() || ''} />}
+                </Flex>
             </form>
         </FormProvider>
     );

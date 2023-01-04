@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Box, Heading, Input } from '@chakra-ui/react';
+import { Flex, Heading, Input } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 
 type InputFieldProps = {
@@ -19,7 +19,7 @@ export const InputField = ({
 }: InputFieldProps): ReactElement => {
     const { register } = useFormContext();
     return (
-        <Box>
+        <Flex flexDirection="column" width="full">
             {labelText && (
                 <Heading size="xs" fontWeight="light" mb={1}>
                     {labelText}
@@ -33,8 +33,9 @@ export const InputField = ({
                 backgroundColor="#FFFFFF"
                 errorBorderColor="red.300"
                 isInvalid={isInvalid}
+                width="100%"
                 {...(isEditing && { size: 'xs' })}
             />
-        </Box>
+        </Flex>
     );
 };

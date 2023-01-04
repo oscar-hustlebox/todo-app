@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Box, Heading, Textarea } from '@chakra-ui/react';
+import { Box, Flex, Heading, Textarea } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 
 type TextAreaFieldProps = {
@@ -19,7 +19,7 @@ export const TextAreaField = ({
 }: TextAreaFieldProps): ReactElement => {
     const { register } = useFormContext();
     return (
-        <Box>
+        <Flex flexDirection="column" width="full">
             {labelText && (
                 <Heading size="xs" fontWeight="light" mb={1}>
                     {labelText}
@@ -35,6 +35,6 @@ export const TextAreaField = ({
                 {...(isEditing && { size: 'xs' })}
                 minHeight="40px"
             />
-        </Box>
+        </Flex>
     );
 };
