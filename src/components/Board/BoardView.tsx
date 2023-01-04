@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Box, Heading, Divider, Text, Flex, IconButton } from '@chakra-ui/react';
 
-import reorder, { columnCardMap, reorderCardMap } from '../../utils';
+import { reorder, columnCardMap, reorderCardMap } from '../../utils';
 import { RootState } from '../../redux/store';
 import { TopBar } from '../TopBar/TopBar';
 import { updateBoard } from '../../redux/slices/board/slice';
