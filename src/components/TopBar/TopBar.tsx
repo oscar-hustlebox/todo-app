@@ -15,7 +15,7 @@ import {
     useDisclosure,
 } from '@chakra-ui/react';
 import { FiTrello } from 'react-icons/fi';
-import { TodoForm } from '../TodoForm/TodoForm';
+import { TaskForm } from '../TaskForm/TaskForm';
 
 export const TopBar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,7 +28,7 @@ export const TopBar = () => {
                         <IconButton
                             size="lg"
                             colorScheme="teal"
-                            aria-label="edit todo"
+                            aria-label="edit task"
                             icon={<FiTrello size="32px" />}
                         />
                     </Box>
@@ -47,7 +47,7 @@ export const TopBar = () => {
                     <ModalHeader>Create Task</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <TodoForm />
+                        <TaskForm />
                     </ModalBody>
                     <ModalFooter />
                 </ModalContent>

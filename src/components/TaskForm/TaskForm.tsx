@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { addTodo, TodoState, updateTodo } from '../../redux/slices/todos/slice';
+import { addTask, TaskState, updateTask } from '../../redux/slices/tasks/slice';
 import { InputField } from './InputField';
 import { SubmitButton } from './SubmitButton';
 import { ErrorMessage } from './ErrorMessage';
@@ -31,22 +31,22 @@ const schema = yup
     })
     .required();
 
-type TodoFormProps = {
-    todo?: TodoState;
+type TaskFormProps = {
+    task?: TaskState;
     handleCancel?: () => void;
 };
 
-export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement => {
+export const TaskForm = ({ task, handleCancel }: TaskFormProps): ReactElement => {
     /* Using the `useForm` hook to create a form. */
     const methods = useForm<FormValues>({
         resolver: yupResolver(schema),
-        defaultValues: todo ? todo : { name: '', isCompleted: false, boardID: '1' },
+        defaultValues: task ? task : { name: '', isCompleted: false, boardID: '1' },
     });
 
     const { reset, handleSubmit, formState } = methods;
     const dispatch = useDispatch();
 
-    const isEditing = todo && handleCancel;
+    const isEditing = task && handleCancel;
     /**
      * The `onSubmit` function is a callback function that is called when the form is submitted. It takes
      * the form values as an argument and dispatches an action to the redux store
@@ -55,10 +55,10 @@ export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement =>
     const onSubmit: SubmitHandler<FormValues> = (formValues) => {
         /* Dispatching an action to the redux store. */
         if (isEditing) {
-            dispatch(updateTodo({ ...todo, ...formValues }));
+            dispatch(updateTask({ ...task, ...formValues }));
             handleCancel();
         } else {
-            dispatch(addTodo({ ...formValues, id: uuidv4() }));
+            dispatch(addTask({ ...formValues, id: uuidv4() }));
         }
         reset();
     };
@@ -69,13 +69,13 @@ export const TodoForm = ({ todo, handleCancel }: TodoFormProps): ReactElement =>
                 <Flex flexDirection="column" alignItems="flex-start" gap={4}>
                     <InputField
                         name="name"
-                        labelText={todo ? '' : 'Name *'}
+                        labelText={task ? '' : 'Name *'}
                         placeholderText="e.g. Wash the car"
                         isInvalid={!!formState.errors.name}
                     />
                     <TextAreaField
                         name="description"
-                        labelText={todo ? '' : 'Description (optional)'}
+                        labelText={task ? '' : 'Description (optional)'}
                         placeholderText="e.g. Wash the car with soap and water"
                         isInvalid={!!formState.errors.name}
                     />

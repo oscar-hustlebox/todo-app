@@ -7,15 +7,15 @@ import reorder, { columnCardMap, reorderCardMap } from '../../utils';
 import { RootState } from '../../redux/store';
 import { TopBar } from '../TopBar/TopBar';
 import { updateBoard } from '../../redux/slices/board/slice';
-import { TodoState, favoriteTodo, removeTodo, updateTodo } from '../../redux/slices/todos/slice';
+import { TaskState, favoriteTask, removeTask, updateTask } from '../../redux/slices/tasks/slice';
 import { DeleteIcon, EditIcon, StarIcon } from '@chakra-ui/icons';
-import { TodoFormCard } from '../TodoForm/TodoFormCard';
+import { TaskFormCard } from '../TaskForm/TaskFormCard';
 
 const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
     const dispatch = useDispatch();
-    const [selected, setSelected] = useState<TodoState | null>();
+    const [selected, setSelected] = useState<TaskState | null>();
 
-    /* Checking if the selected todo is the same as the current todo. */
+    /* Checking if the selected task is the same as the current task. */
     const isSelected = selected?.id === card.id;
 
     return (
@@ -38,7 +38,7 @@ const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
                 boxShadow="md"
             >
                 {selected?.id === card.id ? (
-                    <TodoFormCard todo={card} handleCancel={() => setSelected(null)} />
+                    <TaskFormCard task={card} handleCancel={() => setSelected(null)} />
                 ) : (
                     <>
                         <Heading as="h5" fontSize="xs" fontWeight="medium" pb="2">
@@ -50,28 +50,27 @@ const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
                         </Text>
                     </>
                 )}
-                <Divider />
                 <Flex alignSelf="right" justifyContent="flex-end" gap={2} mt="4">
                     <IconButton
                         size="xs"
                         colorScheme={card.favorite ? 'yellow' : 'gray'}
-                        aria-label="favorited todo"
+                        aria-label="favorited task"
                         icon={<StarIcon />}
-                        onClick={() => dispatch(favoriteTodo(card.id))}
+                        onClick={() => dispatch(favoriteTask(card.id))}
                         disabled={isSelected}
                     />
                     <IconButton
                         size="xs"
                         colorScheme="red"
-                        aria-label="delete todo"
+                        aria-label="delete task"
                         icon={<DeleteIcon />}
-                        onClick={() => dispatch(removeTodo(card.id))}
+                        onClick={() => dispatch(removeTask(card.id))}
                         disabled={isSelected}
                     />
                     <IconButton
                         size="xs"
                         colorScheme="teal"
-                        aria-label="edit todo"
+                        aria-label="edit task"
                         icon={<EditIcon />}
                         onClick={() => setSelected(card)}
                         disabled={isSelected}
@@ -244,7 +243,7 @@ const Board = ({ initialBoard }: any) => {
 
     useEffect(() => {
         if (newCardState) {
-            dispatch(updateTodo(newCardState));
+            dispatch(updateTask(newCardState));
         }
     }, [newCardState, dispatch]);
 
@@ -285,7 +284,7 @@ const Board = ({ initialBoard }: any) => {
 
         // reordering column
         if (result.type === 'COLUMN') {
-            const newOrdered = reorder(ordered, source.index, destination.index); // eg. ['todo', 'in-progress', 'done']
+            const newOrdered = reorder(ordered, source.index, destination.index); // eg. ['task', 'in-progress', 'done']
             /* Updating the board state with the new order of the columns. */
             setNewBoardState(newOrdered?.map((name: any) => boardState.find((item: any) => item.name === name)));
             setOrdered(newOrdered);
@@ -344,9 +343,9 @@ const Board = ({ initialBoard }: any) => {
 
 export const BoardView = () => {
     const board = useSelector((state: Pick<RootState, 'board'>) => state.board);
-    const todos = useSelector((state: Pick<RootState, 'todos'>) => state.todos);
+    const tasks = useSelector((state: Pick<RootState, 'tasks'>) => state.tasks);
 
-    const initialBoard = columnCardMap(board, todos);
+    const initialBoard = columnCardMap(board, tasks);
 
     return (
         <>

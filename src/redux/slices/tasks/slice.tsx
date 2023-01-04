@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-export type TodoState = {
+export type TaskState = {
     id: string;
     name: string;
     isComplete: boolean;
@@ -10,9 +10,9 @@ export type TodoState = {
     boardID?: string;
 };
 
-export type TodosState = TodoState[];
+export type TasksState = TaskState[];
 
-export const initialState: TodosState = [
+export const initialState: TasksState = [
     {
         id: uuidv4(),
         name: 'Walk the dog',
@@ -46,20 +46,17 @@ export const initialState: TodosState = [
     },
 ];
 
-export const todosSlice = createSlice({
-    name: 'todos',
+export const tasksSlice = createSlice({
+    name: 'tasks',
     initialState,
     reducers: {
-        getTodos: (_state, action) => {
-            return action.payload;
-        },
-        addTodo: (state, action) => {
+        addTask: (state, action) => {
             return [...state, action.payload];
         },
-        removeTodo: (state, action) => {
+        removeTask: (state, action) => {
             return state.filter((asset) => asset.id !== action.payload);
         },
-        updateTodo: (state, action) => {
+        updateTask: (state, action) => {
             return state.map((asset) => {
                 if (asset.id === action.payload.id) {
                     return { ...asset, ...action.payload };
@@ -67,7 +64,7 @@ export const todosSlice = createSlice({
                 return asset;
             });
         },
-        toggleTodoComplete: (state, action) => {
+        toggleTaskComplete: (state, action) => {
             return state.map((asset) => {
                 if (asset.id === action.payload) {
                     return { ...asset, isComplete: !asset.isComplete };
@@ -75,7 +72,7 @@ export const todosSlice = createSlice({
                 return asset;
             });
         },
-        favoriteTodo: (state, action) => {
+        favoriteTask: (state, action) => {
             return [...state].map((asset) => {
                 console.log('asset', asset);
                 if (asset.id === action.payload) {
@@ -88,6 +85,6 @@ export const todosSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { getTodos, addTodo, updateTodo, removeTodo, toggleTodoComplete, favoriteTodo } = todosSlice.actions;
+export const { addTask, updateTask, removeTask, toggleTaskComplete, favoriteTask } = tasksSlice.actions;
 
-export default todosSlice.reducer;
+export default tasksSlice.reducer;
