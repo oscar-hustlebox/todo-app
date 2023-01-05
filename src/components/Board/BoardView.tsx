@@ -6,12 +6,19 @@ import { Box, Heading, Divider, Text, Flex, IconButton } from '@chakra-ui/react'
 import { reorder, columnCardMap, reorderCardMap } from '../../utils';
 import { RootState } from '../../redux/store';
 import { TopBar } from '../TopBar/TopBar';
-import { updateBoard } from '../../redux/slices/board/slice';
+import { BoardState, updateBoard } from '../../redux/slices/board/slice';
 import { TaskState, favoriteTask, removeTask, updateTask } from '../../redux/slices/tasks/slice';
 import { DeleteIcon, EditIcon, StarIcon } from '@chakra-ui/icons';
 import { TaskForm } from '../TaskForm/TaskForm';
 
-const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
+type CardListItemProps = {
+    card: TaskState;
+    isDragging: boolean;
+    isGroupedOver: boolean;
+    provided: any;
+};
+
+const CardListItem = ({ card, isDragging, isGroupedOver, provided }: CardListItemProps) => {
     const dispatch = useDispatch();
     const [selected, setSelected] = useState<TaskState | null>();
 
@@ -19,13 +26,7 @@ const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
     const isSelected = selected?.id === card.id;
 
     return (
-        <div
-            isDragging={isDragging}
-            isGroupedOver={isGroupedOver}
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-        >
+        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
             <Box
                 display="flex"
                 flexDirection="column"
@@ -81,43 +82,57 @@ const CardListItem = ({ card, isDragging, isGroupedOver, provided }: any) => {
     );
 };
 
-const InnerCardList = ({ cards }: any) => {
-    return cards?.map((card: any, index: any) => (
-        <Draggable key={card.id} draggableId={card.id} index={index} shouldRespectForceTouch={false}>
-            {(dragProvided: any, dragSnapshot: any) => (
-                <CardListItem
-                    card={card}
-                    isDragging={dragSnapshot.isDragging}
-                    isGroupedOver={Boolean(dragSnapshot.combineTargetFor)}
-                    provided={dragProvided}
-                />
-            )}
-        </Draggable>
-    ));
+type InnerCardListProps = { cards: TaskState[] };
+
+const InnerCardList = ({ cards }: InnerCardListProps) => {
+    return (
+        <>
+            {cards?.map((card, index: number) => (
+                <Draggable key={card.id} draggableId={card.id} index={index} shouldRespectForceTouch={false}>
+                    {(dragProvided: any, dragSnapshot: any) => (
+                        <CardListItem
+                            card={card}
+                            isDragging={dragSnapshot.isDragging}
+                            isGroupedOver={Boolean(dragSnapshot.combineTargetFor)}
+                            provided={dragProvided}
+                        />
+                    )}
+                </Draggable>
+            ))}
+        </>
+    );
 };
 
-const InnerList = ({ cards, dropProvided, title }: any) => {
+type InnerListProps = { cards: TaskState[]; dropProvided: any };
+
+const InnerList = ({ cards, dropProvided }: InnerListProps) => {
     return (
         <div>
-            {title}
-            <div>
-                <InnerCardList cards={cards} />
-                <div ref={dropProvided.innerRef}>{dropProvided.placeholder}</div>
-            </div>
+            <InnerCardList cards={cards} />
+            <div ref={dropProvided.innerRef}>{dropProvided.placeholder}</div>
         </div>
     );
 };
 
+type CardListProps = {
+    cards: TaskState[];
+    ignoreContainerClipping?: boolean;
+    internalScroll?: boolean;
+    isDropDisabled?: boolean;
+    isCombineEnabled?: boolean;
+    listId?: string;
+    listType?: string;
+};
+
 const CardList = ({
+    cards,
     ignoreContainerClipping,
     internalScroll,
     isDropDisabled,
     isCombineEnabled,
     listId = 'LIST',
     listType,
-    cards,
-    title,
-}: any) => {
+}: CardListProps) => {
     return (
         <Droppable
             droppableId={listId}
@@ -126,7 +141,7 @@ const CardList = ({
             isDropDisabled={isDropDisabled}
             isCombineEnabled={isCombineEnabled}
         >
-            {(dropProvided: any, dropSnapshot: any) => (
+            {(dropProvided: any) => (
                 <div
                     style={{
                         display: 'flex',
@@ -138,9 +153,6 @@ const CardList = ({
                         userSelect: 'none',
                         width: '250px',
                     }}
-                    isDraggingOver={dropSnapshot.isDraggingOver}
-                    isDropDisabled={isDropDisabled}
-                    isDraggingFrom={Boolean(dropSnapshot.draggingFromThisWith)}
                     {...dropProvided.droppableProps}
                 >
                     {internalScroll ? (
@@ -151,10 +163,10 @@ const CardList = ({
                                 maxHeight: '100%',
                             }}
                         >
-                            <InnerList cards={cards} title={title} dropProvided={dropProvided} />
+                            <InnerList cards={cards} dropProvided={dropProvided} />
                         </div>
                     ) : (
-                        <InnerList cards={cards} title={title} dropProvided={dropProvided} />
+                        <InnerList cards={cards} dropProvided={dropProvided} />
                     )}
                 </div>
             )}
@@ -162,72 +174,71 @@ const CardList = ({
     );
 };
 
-const Column = ({ title, cards, index, isCombineEnabled }: any) => (
+type ColumnProps = {
+    title: string;
+    cards: TaskState[];
+    index: number;
+    isCombineEnabled: boolean;
+};
+
+const Column = ({ title, cards, index, isCombineEnabled }: ColumnProps) => (
     <Draggable draggableId={title} index={index}>
-        {(provided: any, snapshot: any) => (
-            <Box
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                display="flex"
-                flexDir="column"
-                margin={2}
-                bgColor="#F2F2F4"
-                borderRadius={8}
-                border="1px solid #E2E8F0"
-            >
-                <div
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    /* @ts-ignore */
-                    isDragging={snapshot.isDragging}
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
+        {(provided: any) => {
+            return (
+                <Box
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    display="flex"
+                    flexDir="column"
+                    margin={2}
+                    bgColor="#F2F2F4"
+                    borderRadius={8}
+                    border="1px solid #E2E8F0"
                 >
-                    <Heading
-                        as="h4"
-                        fontSize="md"
-                        fontWeight="bold"
-                        p="2"
-                        ml="2"
-                        isDragging={snapshot.isDragging}
-                        {...provided.dragHandleProps}
+                    <div
                         style={{
                             display: 'flex',
-                            transition: 'ease',
-                            transitionDuration: '0.2s',
-                            flexGrow: 1,
-                            userSelect: 'none',
-                            position: 'relative',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                         }}
                     >
-                        {title}
-                    </Heading>
-                </div>
-                <CardList
-                    listId={title}
-                    listType="CARD"
-                    style={{
-                        backgroundColor: snapshot.isDragging ? 'gray' : null,
-                    }}
-                    cards={cards}
-                    isCombineEnabled={isCombineEnabled}
-                />
-            </Box>
-        )}
+                        <Heading
+                            as="h4"
+                            fontSize="md"
+                            fontWeight="bold"
+                            p="2"
+                            ml="2"
+                            {...provided.dragHandleProps}
+                            style={{
+                                display: 'flex',
+                                transition: 'ease',
+                                transitionDuration: '0.2s',
+                                flexGrow: 1,
+                                userSelect: 'none',
+                                position: 'relative',
+                            }}
+                        >
+                            {title}
+                        </Heading>
+                    </div>
+                    <CardList listId={title} listType="CARD" cards={cards} isCombineEnabled={isCombineEnabled} />
+                </Box>
+            );
+        }}
     </Draggable>
 );
 
-const Board = ({ initialBoard }: any) => {
-    const [columns, setColumns] = useState<any>();
-    const [ordered, setOrdered] = useState<any>();
-    const [newBoardState, setNewBoardState] = useState<any>();
-    const [newCardState, setNewCardState] = useState<any>();
-    const [containerHeight] = useState<any>(500);
+type BoardProps = { initialBoard: Record<string, TaskState[]> };
+
+const Board = ({ initialBoard }: BoardProps) => {
+    const [columns, setColumns] = useState<Record<string, TaskState[]>>();
+    const [ordered, setOrdered] = useState<string[]>();
+    const [newBoardState, setNewBoardState] = useState<BoardState[]>();
+    const [newCardState, setNewCardState] = useState<Record<string, string>>();
+    const [containerHeight] = useState<number>(500);
     const [isCombineEnabled] = useState<boolean>(false);
 
-    const boardState = useSelector((state: Pick<RootState, 'board'>) => state.board);
+    const boardState = useSelector((state: RootState) => state.board);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -247,10 +258,16 @@ const Board = ({ initialBoard }: any) => {
         }
     }, [newCardState, dispatch]);
 
-    const onDragEnd = (result: any) => {
+    const onDragEnd = (result: {
+        source: { droppableId: string; index: number };
+        destination: { droppableId: string; index: number };
+        draggableId: string;
+        type: string;
+        combine: { draggableId: string; droppableId: string };
+    }) => {
         if (result.combine) {
             if (result.type === 'COLUMN') {
-                const shallow = [...ordered];
+                const shallow = [...(ordered as string[])];
                 shallow.splice(result.source.index, 1);
                 setOrdered(shallow);
                 return;
@@ -284,10 +301,14 @@ const Board = ({ initialBoard }: any) => {
 
         // reordering column
         if (result.type === 'COLUMN') {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            /* @ts-ignore to-fix */
             const newOrdered = reorder(ordered, source.index, destination.index); // eg. ['task', 'in-progress', 'done']
             /* Updating the board state with the new order of the columns. */
-            setNewBoardState(newOrdered?.map((name: any) => boardState.find((item: any) => item.name === name)));
-            setOrdered(newOrdered);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            /* @ts-ignore to-fix */
+            setNewBoardState(newOrdered?.map((name: string) => boardState?.find((item) => item.name === name)));
+            setOrdered(newOrdered as string[]);
             return;
         }
 
@@ -299,8 +320,8 @@ const Board = ({ initialBoard }: any) => {
 
         const payload = {
             id: result.draggableId,
-            boardID: boardState.find((b: any) => b.name === destination.droppableId)?.id,
-        };
+            boardID: boardState.find((b: BoardState) => b.name === destination.droppableId)?.id,
+        } as Record<string, string>;
 
         setNewCardState(payload);
 
@@ -317,12 +338,12 @@ const Board = ({ initialBoard }: any) => {
         >
             {(provided: any) => (
                 <Box height="100vh" display="flex" ref={provided.innerRef} {...provided.droppableProps}>
-                    {ordered?.map((key: any, index: any) => (
+                    {ordered?.map((key: string, index: number) => (
                         <Column
                             key={key}
                             index={index}
                             title={key}
-                            cards={columns?.[key]}
+                            cards={columns?.[key] as TaskState[]}
                             isCombineEnabled={isCombineEnabled}
                         />
                     ))}
@@ -342,8 +363,8 @@ const Board = ({ initialBoard }: any) => {
 };
 
 export const BoardView = () => {
-    const board = useSelector((state: Pick<RootState, 'board'>) => state.board);
-    const tasks = useSelector((state: Pick<RootState, 'tasks'>) => state.tasks);
+    const board = useSelector((state: RootState) => state.board);
+    const tasks = useSelector((state: RootState) => state.tasks);
 
     const initialBoard = columnCardMap(board, tasks);
 

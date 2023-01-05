@@ -1,21 +1,32 @@
-/**
- * It takes a column and a list of cards and returns a list of cards that have the same boardID as the
- * column
- * @param column - the column object
- * @param cards - an array of objects that contain the boardID property
- */
-const getByColumnName = (column: any, cards: any) => cards.filter((card: any) => card.boardID === column.id);
+import { BoardState } from './redux/slices/board/slice';
+import { TaskState } from './redux/slices/tasks/slice';
 
 /**
- * It takes an array of columns and an array of cards and returns an object where the keys are the
- * column names and the values are the cards that belong to that column
- * @param columns - any[] - an array of columns
- * @param cards - an array of objects that represent cards
- * @returns An object with the column name as the key and the cards as the value.
+ * It takes a column and a list of cards and returns a list of cards that belong to that column
+ * @param column - an object that contains the id property
+ * @param cards - an array of objects that contain the boardID property
+ * @returns An array of cards that belong to the column
  */
-export const columnCardMap = (columns: any[], cards: any[]) => {
-    return columns.reduce(
-        (previousColumn: any, column: any) => ({
+const getByColumnName = (column: BoardState, cards: TaskState[]) => cards.filter((card) => card.boardID === column.id);
+
+/**
+ * It takes a list of columns and a list of cards and returns a map of columns and cards
+ * @param columns - an array of objects that contain the name property
+ * @param cards - an array of objects that contain the boardID property
+ * @returns An object with the column name as the key and an array of cards as the value
+ * @example
+ * const columns = [{id: 1, name: 'To Do'}, {id: 2, name: 'In Progress'}, {id: 3, name: 'Done'}]
+ * const cards = [{id: 1, boardID: 1}, {id: 2, boardID: 2}, {id: 3, boardID: 3}]
+ * const result = columnCardMap(columns, cards)
+ * result = {
+ *  'To Do': [{id: 1, boardID: 1}],
+ * 'In Progress': [{id: 2, boardID: 2}],
+ * 'Done': [{id: 3, boardID: 3}]
+ * }
+ */
+export const columnCardMap = (columns: BoardState[], cards: TaskState[]) => {
+    return columns?.reduce(
+        (previousColumn, column) => ({
             ...previousColumn,
             [column.name]: getByColumnName(column, cards),
         }),
@@ -24,14 +35,17 @@ export const columnCardMap = (columns: any[], cards: any[]) => {
 };
 
 /**
- * It takes a list, removes an item from the list at a given index, and then inserts that item at a
- * given index
- * @param list - The list of items to be reordered.
- * @param startIndex - The index of the item you're dragging
- * @param endIndex - The index of the item that was dragged to.
- * @returns An array with the item at startIndex removed and inserted at endIndex.
+ * It takes a list and an index and returns a new list with the item at the index removed
+ * @param list - an array of items
+ * @param index - the index of the item to be removed
+ * @returns A new array with the item at the index removed
+ * @example
+ * const list = ['a', 'b', 'c']
+ * const index = 1
+ * const result = remove(list, index)
+ * result = ['a', 'c']
  */
-export const reorder = (list: any, startIndex: any, endIndex: any) => {
+export const reorder = (list: string[], startIndex: number, endIndex: number) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -40,11 +54,18 @@ export const reorder = (list: any, startIndex: any, endIndex: any) => {
 };
 
 /**
- * It takes a cardMap, source and destination and returns a new cardMap with the card moved from source
- * to destination
- * @param cardMap - the current state of the cardMap
+ * It takes in a cardMap, source and destination and returns a new cardMap with the card at the source
+ * index moved to the destination index
  */
-export const reorderCardMap = ({ cardMap, source, destination }: any) => {
+export const reorderCardMap = ({
+    cardMap,
+    source,
+    destination,
+}: {
+    cardMap: any;
+    source: { droppableId: string; index: number };
+    destination: { droppableId: string; index: number };
+}) => {
     const current = [...cardMap[source.droppableId]];
     const next = [...cardMap[destination.droppableId]];
     const target = current[source.index];

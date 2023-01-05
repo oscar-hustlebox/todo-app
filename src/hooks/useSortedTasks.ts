@@ -8,8 +8,8 @@ import { RootState } from '../redux/store';
  * @returns a sorted array of tasks
  */
 export const useSortedTasks = () => {
-    const tasks = useSelector((state: Pick<RootState, 'tasks'>) => state.tasks);
-    const { sortBy } = useSelector((state: Pick<RootState, 'sortBy'>) => state.sortBy);
+    const tasks = useSelector((state: RootState) => state.tasks);
+    const { sortBy } = useSelector((state: RootState) => state.sortBy);
 
     /* Sorting the tasks by the name property. */
     const sortByNameTasks = [...tasks].sort((a, b) => {
