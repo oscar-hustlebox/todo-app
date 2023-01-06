@@ -35,15 +35,13 @@ export const columnCardMap = (columns: BoardState[], cards: TaskState[]) => {
 };
 
 /**
- * It takes a list and an index and returns a new list with the item at the index removed
- * @param list - an array of items
- * @param index - the index of the item to be removed
- * @returns A new array with the item at the index removed
- * @example
- * const list = ['a', 'b', 'c']
- * const index = 1
- * const result = remove(list, index)
- * result = ['a', 'c']
+ * It takes a list, removes an item from the list at a given index, and then inserts that item at a
+ * given index
+ * @param {string[]} list - The list of items to be reordered.
+ * @param {number} startIndex - The index of the item you're dragging.
+ * @param {number} endIndex - The index of the item that was dragged to.
+ * @returns A function that takes in a list, startIndex, and endIndex and returns a new array with the
+ * item at startIndex moved to endIndex.
  */
 export const reorder = (list: string[], startIndex: number, endIndex: number) => {
     const result = Array.from(list);

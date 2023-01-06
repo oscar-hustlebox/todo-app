@@ -5,8 +5,8 @@ export type TaskState = {
     id: string;
     name: string;
     isComplete: boolean;
-    description?: string;
     favorite: boolean;
+    description?: string;
     boardID?: string;
 };
 
@@ -74,7 +74,6 @@ export const tasksSlice = createSlice({
         },
         favoriteTask: (state, action) => {
             return [...state].map((asset) => {
-                console.log('asset', asset);
                 if (asset.id === action.payload) {
                     return { ...asset, favorite: !asset.favorite };
                 }
