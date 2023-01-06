@@ -1,13 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import todosReducer from './slices/todos/slice';
+import tasksReducer from './slices/tasks/slice';
 import sortByReducer from './slices/sortBy/slice';
+import boardReducer from './slices/board/slice';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 const reducers = combineReducers({
-    todos: todosReducer,
+    tasks: tasksReducer,
     sortBy: sortByReducer,
+    board: boardReducer,
 });
 
 const persistConfig = {

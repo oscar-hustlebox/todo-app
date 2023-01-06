@@ -1,6 +1,5 @@
-import * as React from 'react';
 import { extendTheme, ChakraProvider } from '@chakra-ui/react';
-import { TodosView } from './components/TodosView';
+import { BoardView } from './components/Board/BoardView';
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const customeTheme = extendTheme({
@@ -14,7 +13,7 @@ const theme = extendTheme({ customeTheme });
 function App() {
     return (
         <ChakraProvider theme={theme}>
-            <TodosView />
+            <BoardView />
         </ChakraProvider>
     );
 }

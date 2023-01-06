@@ -1,32 +1,41 @@
 import { ReactElement } from 'react';
-import { Box, Heading, Textarea } from '@chakra-ui/react';
+import { Flex, Heading, Input } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 
-type TextAreaFieldProps = {
+type InputFieldProps = {
     name: string;
     labelText: string;
     placeholderText: string;
     isInvalid: boolean;
+    isEditing?: boolean;
 };
 
-export const TextAreaField = ({ name, labelText, placeholderText, isInvalid }: TextAreaFieldProps): ReactElement => {
+export const InputField = ({
+    name,
+    labelText,
+    placeholderText,
+    isInvalid,
+    isEditing = false,
+}: InputFieldProps): ReactElement => {
     const { register } = useFormContext();
     return (
-        <Box>
+        <Flex flexDirection="column" width="full">
             {labelText && (
                 <Heading size="xs" fontWeight="light" mb={1}>
                     {labelText}
                 </Heading>
             )}
-            <Textarea
+            <Input
                 {...register(name)}
+                type="text"
                 placeholder={placeholderText}
                 borderColor="gray.200"
                 backgroundColor="#FFFFFF"
                 errorBorderColor="red.300"
                 isInvalid={isInvalid}
-                minHeight="40px"
+                width="100%"
+                {...(isEditing && { size: 'xs' })}
             />
-        </Box>
+        </Flex>
     );
 };
